@@ -1,4 +1,16 @@
 @extends('master')
+@section('head')
+<script>
+  function setPercent(id) {
+    var value=$('#percentof'+id).val();
+    $.get('/streets/'+id+'/percent/'+value, function(ketqua) {
+      console.log(ketqua);
+		});
+  }
+
+  
+</script>
+@stop
 @section('main')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -24,97 +36,47 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline">
+          @foreach($streets as $street)
+          <div class="col-xl-3 col-lg-6 col-sm-12">
+            <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Tuyến Mậu Thân (dưới)</h3>
+                <h3 class="card-title">{{$street->name}}</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                   </button>
                 </div>
                 <!-- /.card-tools -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <button type="button" class="btn btn-block btn-success btn-lg">Success</button>
-                <hr>
-                <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
-                data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal"
-                data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
-                <hr>
-                <a class="btn btn-app">
-                  <i class="fa fa-play"></i> Chỉnh độ sáng
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-power-off"></i> Bật/Tắt Đèn
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-clock-o"></i> Hẹn Giờ
-                </a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">Tuyến Mậu Thân (trên)</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
+                <div class="mt-3 info-box">
+                  @foreach($street->lamps as $lamp)
+                    @if($street->is_error())
+                      <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-danger"><i class="fa fa-lightbulb-o"></i></span>
+                    @elseif($street->is_on())
+                      <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-success"><i class="fa fa-lightbulb-o"></i></span>
+                    @else
+                      <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-default"><i class="fa fa-lightbulb-o"></i></span>
+                    @endif
+                  @endforeach
                 </div>
-                <!-- /.card-tools -->
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <button type="button" class="btn btn-block btn-warning btn-lg">Lỗi đèn</button>
-                <hr>
-                <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
-                data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal"
-                data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
-                <hr>
-                <a class="btn btn-app">
-                  <i class="fa fa-play"></i> Chỉnh độ sáng
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-power-off"></i> Bật/Tắt Đèn
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-clock-o"></i> Hẹn Giờ
-                </a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">Tuyến 3/2</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                </div>
-                <!-- /.card-tools -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
+                @if($street->is_error())
+                <button type="button" class="btn btn-block btn-warning btn-lg">Có lỗi</button>
+                @elseif($street->is_on())
+                <button type="button" class="btn btn-block btn-success btn-lg">Đang bật</button>
+                @else
                 <button type="button" class="btn btn-block btn-danger btn-lg">Đang tắt</button>
+                @endif
                 <hr>
-                <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
-                data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal"
+                <input type="text" id="percentof{{$street->id}}" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
+                data-slider-step="5" data-slider-value="{{$street->percent}}" data-slider-orientation="horizontal"
                 data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
                 <hr>
-                <a class="btn btn-app">
+                <a class="btn btn-app" onclick="setPercent({{$street->id}})">
                   <i class="fa fa-play"></i> Chỉnh độ sáng
                 </a>
-                <a class="btn btn-app">
+                <a href="{{route('user.street.onoff.get', ['id'=>$street->id])}}" class="btn btn-app">
                   <i class="fa fa-power-off"></i> Bật/Tắt Đèn
                 </a>
                 <a class="btn btn-app">
@@ -126,40 +88,7 @@
             <!-- /.card -->
           </div>
           <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">Tuyến Trần Hưng Đạo</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                </div>
-                <!-- /.card-tools -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <button type="button" class="btn btn-block btn-danger btn-lg">Đang tắt</button>
-                <hr>
-                <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
-                data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal"
-                data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
-                <hr>
-                <a class="btn btn-app">
-                  <i class="fa fa-play"></i> Chỉnh độ sáng
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-power-off"></i> Bật/Tắt Đèn
-                </a>
-                <a class="btn btn-app">
-                  <i class="fa fa-clock-o"></i> Hẹn Giờ
-                </a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
+          @endforeach
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -168,3 +97,8 @@
   </div>
   <!-- /.content-wrapper -->
   @stop
+
+@section('script')
+<script>
+</script>
+@stop
