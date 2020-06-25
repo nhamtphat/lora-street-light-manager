@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login','LoginController@getLogin')->name('guest.login.get');
 Route::post('/login','LoginController@postLogin')->name('guest.login.post');
+
+Route::get('/bao-loi/{id}', 'LightController@getReport'); 
+
 Route::name('user.')->middleware('auth')->group(function() 
 {
     Route::get('/checkauth', function ()

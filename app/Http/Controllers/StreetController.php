@@ -22,9 +22,6 @@ class StreetController extends Controller
 
     public function postAdd(Request $req)
     {
-        /**
-         * Kiểm tra uid của đèn có trùng không, nếu có thì trở lại + báo lỗi
-         */
         $lamps = Lamp::whereIn('uid', $req->lamp_uid)->get();
         if($lamps->count() > 0) {
             return redirect()->back()->withInput()->withError('Trùng các id '.$lamps->pluck('uid'));
