@@ -8,6 +8,7 @@ class LightController extends Controller
 {
     public function getReport($light_id)
     {
-        return 'Báo lỗi: '.$light_id;
+        
+        return ["led_id" => $light_id, "status" => "OK"];
     }
 }
