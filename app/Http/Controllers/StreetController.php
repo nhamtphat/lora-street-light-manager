@@ -75,12 +75,38 @@ class StreetController extends Controller
         return redirect()->route('user.street.list.get');
     }
 
+    public function sendToESP($street_id, $level)
+    {
+        $street = Street::findOrFail($street_id);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'http://'.$street->domain.'/?ledid=000&level='.$level,
+            // CURLOPT_URL => 'https://light.techking.vn/ok',
+            CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
+            CURLOPT_SSL_VERIFYPEER => false
+        ));
+        $resp = curl_exec($curl);
+        return $resp;
+    }
+
     public function getOnoff($street_id)
     {
         $street = Street::findOrFail($street_id);
-        if($street->state=='on') { $street->state = 'off'; }
-        elseif($street->state=='off') { $street->state = 'on'; }
-        $street->save();
+        if($street->state=='on') {
+            $resp = $this->sendToESP($street->id, 0);
+            if ($resp == 'OK') {
+                $street->state = 'off';
+                $street->save();
+            }
+        }
+        elseif($street->state=='off') {
+            $resp = $this->sendToESP($street->id, $street->percent);
+            if ($resp == 'OK') {
+                $street->state = 'on'; 
+                $street->save();
+            }
+        }
         return redirect()->back();
     }
 
@@ -90,6 +116,11 @@ class StreetController extends Controller
         $street->percent = $value;
         $street->save();
 
-        return 'OK';
+        if ($street->state == 'on') {
+            $resp = $this->sendToESP($street->id, $street->percent);
+            return 'Đã điều chỉnh độ sáng thành mức '.$value.'.';
+        }
+
+        return 'Đèn đang tắt, độ sáng được lưu thành mức '.$value.'.';
     }
 }

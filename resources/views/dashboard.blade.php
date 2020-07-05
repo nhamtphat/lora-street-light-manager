@@ -4,7 +4,7 @@
   function setPercent(id) {
     var value=$('#percentof'+id).val();
     $.get('/streets/'+id+'/percent/'+value, function(ketqua) {
-      console.log(ketqua);
+      alert(ketqua);
 		});
   }
 
@@ -69,8 +69,8 @@
                 <button type="button" class="btn btn-block btn-danger btn-lg">Đang tắt</button>
                 @endif
                 <hr>
-                <input type="text" id="percentof{{$street->id}}" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
-                data-slider-step="5" data-slider-value="{{$street->percent}}" data-slider-orientation="horizontal"
+                <input type="text" id="percentof{{$street->id}}" value="" class="slider form-control" data-slider-min="0" data-slider-max="10"
+                data-slider-step="1" data-slider-value="{{$street->percent}}" data-slider-orientation="horizontal"
                 data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
                 <hr>
                 <a class="btn btn-app" onclick="setPercent({{$street->id}})">

@@ -51,7 +51,7 @@
                   @foreach(old('lamp_uid') ?? [] as $uid)
                   <div class="form-group">
                     <div class="input-group">
-                      <input type="text" name="lamp_uid[]" class="form-control" placeholder="UID của đèn" value="{{$uid}}" required>
+                      <input type="number" name="lamp_uid[]" min="100" max="999" class="form-control" placeholder="UID của đèn" value="{{$uid}}" required>
                       <span class="input-group-append">
                         <input type="button" class="btn btn-danger remove-field" value="Xoá dòng này" >
                       </span>
@@ -83,7 +83,7 @@
   @section('scripts')
   <script>
   $("#add-field").click(function() {
-    $("#form-field").append('<div class="form-group"><div class="input-group"><input type="text" name="lamp_uid[]" class="form-control" placeholder="UID của đèn" required><span class="input-group-append">\
+    $("#form-field").append('<div class="form-group"><div class="input-group"><input type="number" name="lamp_uid[]" min="100" max="999" class="form-control" placeholder="UID của đèn" required><span class="input-group-append">\
                     <input type="button" class="btn btn-danger remove-field" value="Xoá dòng này" ></span></div></div>');
   });
 

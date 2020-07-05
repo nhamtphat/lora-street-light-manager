@@ -18,6 +18,11 @@ Route::post('/login','LoginController@postLogin')->name('guest.login.post');
 
 Route::get('/bao-loi/{id}', 'LightController@getReport'); 
 
+Route::get('/ok', function ()
+{
+    return 'OK';
+});
+
 Route::name('user.')->middleware('auth')->group(function() 
 {
     Route::get('/checkauth', function ()
