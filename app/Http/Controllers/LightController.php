@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Lamp;
 
 class LightController extends Controller
 {
-    public function getReport($light_id)
+    public function getReport($lamp_id)
     {
-        
-        return ["led_id" => $light_id, "status" => "OK"];
+        $lamp = Lamp::findOrFail($lamp_id);
+        $lamp->street->state = 'error';
+        $lamp->street->save();
+        return ["led_id" => $lamp_id, "status" => "OK"];
     }
 }
