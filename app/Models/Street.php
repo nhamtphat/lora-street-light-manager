@@ -41,7 +41,7 @@ class Street extends Model
             CURLOPT_RETURNTRANSFER => 1,
             // CURLOPT_URL => 'http://'.$this->domain.'/?ledid=0000&level='.sprintf("%02d", $level),
             CURLOPT_URL => 'https://light.techking.vn/ok',
-            CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
+            CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
             CURLOPT_SSL_VERIFYPEER => false
         ));
         $resp = curl_exec($curl);
