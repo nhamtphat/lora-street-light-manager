@@ -40,8 +40,8 @@ class StreetControl extends Command
      */
     public function handle()
     {
-        $schedules = App\Models\Schedule::whereTime('time', '>=', date("h:i:00"))->whereTime('time', '<=', date("h:i:59"))->get();
-        $streets = App\Models\Street::all();
+        $schedules = Schedule::whereTime('time', '>=', date("h:i:00"))->whereTime('time', '<=', date("h:i:59"))->get();
+        $streets = Street::all();
         foreach ($schedules as $schedule ) {
             foreach ($streets as $street) {
                 $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
