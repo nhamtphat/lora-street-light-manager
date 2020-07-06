@@ -27,4 +27,24 @@ class Street extends Model
     {
         return $this->state=='error';
     }
+
+    /**
+     * Dùng curl gửi dữ liệu đến ESP, với các tên miền được lưu sẵn
+     *
+     * @return response
+     */
+    public function sendToESP($level = null)
+    {
+        if ($level==null) $level = $this->percent;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            // CURLOPT_URL => 'http://'.$this->domain.'/?ledid=0000&level='.sprintf("%02d", $level),
+            CURLOPT_URL => 'https://light.techking.vn/ok',
+            CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
+            CURLOPT_SSL_VERIFYPEER => false
+        ));
+        $resp = curl_exec($curl);
+        return $resp;
+    }
 }

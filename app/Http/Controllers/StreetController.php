@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Street;
 use App\Models\Lamp;
-use Illuminate\Support\Arr;
 
 class StreetController extends Controller
 {
@@ -111,26 +110,6 @@ class StreetController extends Controller
     }
 
     /**
-     * Dùng curl gửi dữ liệu đến ESP, với các tên miền được lưu sẵn
-     *
-     * @return response
-     */
-    public function sendToESP($street_id, $level)
-    {
-        $street = Street::findOrFail($street_id);
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            // CURLOPT_URL => 'http://'.$street->domain.'/?ledid=0000&level='.sprintf("%02d", $level),
-            CURLOPT_URL => 'https://light.techking.vn/ok',
-            CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
-            CURLOPT_SSL_VERIFYPEER => false
-        ));
-        $resp = curl_exec($curl);
-        return $resp;
-    }
-
-    /**
      * Thay đổi trạng thái đèn của tuyến đường
      * Nếu ON => OFF, nếu OFF => ON
      *
@@ -140,13 +119,13 @@ class StreetController extends Controller
     {
         $street = Street::findOrFail($street_id);
         if($street->state=='on') {
-            $resp = $this->sendToESP($street->id, 0);
+            $resp = $street->sendToESP(0);
             if ($resp == 'OK') $street->update(['state' => 'off']);
         }
 
         
         elseif($street->state=='off') {
-            $resp = $this->sendToESP($street->id, $street->percent);
+            $resp = $street->sendToESP();
             if ($resp == 'OK') $street->update(['state' => 'on']);
         }
         return redirect()->back();
@@ -164,7 +143,7 @@ class StreetController extends Controller
         $street->update(['percent' => $value]);
 
         if ($street->state == 'on') {
-            $resp = $this->sendToESP($street->id, $street->percent);
+            $resp = $street->sendToESP();
             return 'Đã điều chỉnh độ sáng thành mức '.$value.'.';
         }
 
