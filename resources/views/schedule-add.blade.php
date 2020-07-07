@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Hẹn giờ</h1>
+            <h1 class="m-0 text-dark">Bảng điều khiển</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -23,85 +23,54 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        @if (session('error'))
+        <div class="alert alert-warning alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h5><i class="icon fa fa-warning"></i> Thông báo!</h5>
+          {{ session('error') }}
+        </div>
+        @endif
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-12">
             <div class="card card-primary">
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <tbody>
-                    <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Tên nhiệm vụ</th>
-                    <th>Thời gian</th>
-                    <th>Lệnh</th>
-                    <th>Độ sáng</th>
-                    <th>Chỉnh sửa/Xoá</th>
-                  </tr>
-                  <tr>
-                    <td>1.</td>
-                    <td>Bật đèn lúc chiều</td>
-                    <td>18:00:00</td>
-                    <td>
-                      <div class="btn btn-success">Bật đèn</div>
-                    </td>
-                    <td>100%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2.</td>
-                    <td>Giảm độ sáng lúc 0h</td>
-                    <td>00:00:00</td>
-                    <td>
-                      <div class="btn btn-info">Chỉnh độ sáng</div>
-                    </td>
-                    <td>50%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3.</td>
-                    <td>Tăng độ sáng lúc 3h</td>
-                    <td>03:30:00</td>
-                    <td>
-                      <div class="btn btn-info">Chỉnh độ sáng</div>
-                    </td>
-                    <td>100%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4.</td>
-                    <td>Tắt đèn vào buổi sáng</td>
-                    <td>05:30:00</td>
-                    <td>
-                      <div class="btn btn-danger">Tắt đèn</div>
-                    </td>
-                    <td>0%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="card-header">
+                <h3 class="card-title">Nhập thông tin hẹn giờ</h3>
               </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="{{route('user.schedule.add.post')}}" method="post">
+                {{csrf_field()}}
+                <div class="card-body" id="form-field">
+                  <div class="form-group">
+                    <label for="name">Đặt tên:</label>
+                    <input name="name" type="text" class="form-control" id="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Thời gian:</label>
+                    <input name="time" type="time" class="form-control" id="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="staff_id">Lệnh:</label>
+                    <select name="state" id="staff_id" class="form-control select2" style="width: 100%;">
+                      <option value="setpercent">Chỉnh độ sáng</option>
+                      <option value="off">Tắt đền</option>
+                      <option value="on">Bật đèn</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Độ sáng:</label>
+                    <input name="percent" type="number" min="0" max="10" class="form-control" id="name" required>
+                  </div>
+                </div> 
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary float-right">Lưu</button>
+                </div>
+              </form>
             </div>
+            <!-- /.card -->
           </div>
+          <!-- /.col -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -109,4 +78,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  @stop
+
+@section('scripts')
 @stop

@@ -37,59 +37,22 @@
                     <th>Độ sáng</th>
                     <th>Chỉnh sửa/Xoá</th>
                   </tr>
+                  @php $i = 1; @endphp
+                  @foreach($schedules as $schedule)
                   <tr>
-                    <td>1.</td>
-                    <td>Bật đèn lúc chiều</td>
-                    <td>18:00:00</td>
+                    <td>{{ $i++ }}.</td>
+                    <td>{{ $schedule->name }}</td>
+                    <td>{{ $schedule->time }}</td>
                     <td>
+                      @if($schedule->state == 'on')
                       <div class="btn btn-success">Bật đèn</div>
-                    </td>
-                    <td>100%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2.</td>
-                    <td>Giảm độ sáng lúc 0h</td>
-                    <td>00:00:00</td>
-                    <td>
-                      <div class="btn btn-info">Chỉnh độ sáng</div>
-                    </td>
-                    <td>50%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3.</td>
-                    <td>Tăng độ sáng lúc 3h</td>
-                    <td>03:30:00</td>
-                    <td>
-                      <div class="btn btn-info">Chỉnh độ sáng</div>
-                    </td>
-                    <td>100%</td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4.</td>
-                    <td>Tắt đèn vào buổi sáng</td>
-                    <td>05:30:00</td>
-                    <td>
+                      @elseif($schedule->state == 'off')
                       <div class="btn btn-danger">Tắt đèn</div>
+                      @elseif($schedule->state == 'setpercent')
+                      <div class="btn btn-info">Chỉnh độ sáng</div>
+                      @endif
                     </td>
-                    <td>0%</td>
+                    <td>{{ $schedule->percent }}</td>
                     <td>
                       <div class="btn-group">
                         <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
@@ -97,6 +60,7 @@
                       </div>
                     </td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
               </div>

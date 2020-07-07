@@ -15,6 +15,8 @@ class AddStateColtoSchedulesTable extends Migration
     {
         Schema::table('schedules', function (Blueprint $table) {
             $table->string('state')->after('command_type');
+            $table->string('name')->after('id');
+            $table->dropColumn('command_type');
         });
     }
 
@@ -26,7 +28,8 @@ class AddStateColtoSchedulesTable extends Migration
     public function down()
     {
         Schema::table('schedules', function (Blueprint $table) {
-            //
+            $table->dropColumn('state');
+            $table->dropColumn('name');
         });
     }
 }

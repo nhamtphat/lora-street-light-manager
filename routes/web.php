@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login','LoginController@getLogin')->name('guest.login.get');
 Route::post('/login','LoginController@postLogin')->name('guest.login.post');
 
-Route::get('/bao-loi/{id}', 'LightController@getReport'); 
+Route::get('/bao-loi/{id}', 'LampController@getReport'); 
 
 Route::get('/ok', function ()
 {
@@ -43,14 +43,11 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/{id}/onoff', 'StreetController@getOnoff')->name('onoff.get');
         Route::get('/{id}/percent/{value}', 'StreetController@getPercent')->name('percent.get');
     });
+
+    Route::name('schedule.')->prefix('/schedules')->group(function ()
+    {
+        Route::get('/', 'ScheduleController@getList')->name('list.get');
+        Route::get('/add', 'ScheduleController@getAdd')->name('add.get');
+        Route::post('/add', 'ScheduleController@postAdd')->name('add.post');
+    });
 });
-
-
-
-Route::get('/schedules', function () {
-    return view('schedule-list');
-})->name('user.schedule.list.get');
-
-Route::get('/schedules/add', function () {
-    return view('schedule-list');
-})->name('user.schedule.add.get');

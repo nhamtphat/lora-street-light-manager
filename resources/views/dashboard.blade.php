@@ -49,12 +49,14 @@
                 <!-- /.card-tools -->
                 <div class="mt-3 info-box">
                   @foreach($street->lamps as $lamp)
-                    @if($street->is_error())
-                      <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-danger"><i class="fa fa-lightbulb-o"></i></span>
-                    @elseif($street->is_on())
+                    @if($lamp->status == 'error')
+                      <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-warning"><i class="fa fa-lightbulb-o"></i></span>
+                    @else
+                    @if($street->is_on())
                       <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-success"><i class="fa fa-lightbulb-o"></i></span>
                     @else
                       <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon bg-default"><i class="fa fa-lightbulb-o"></i></span>
+                    @endif
                     @endif
                   @endforeach
                 </div>
