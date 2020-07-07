@@ -40,13 +40,13 @@ class StreetControl extends Command
      */
     public function handle()
     {
-        $schedules = Schedule::whereTime('time', '>=', date("h:i:00"))->whereTime('time', '<=', date("h:i:59"))->get();
+        $schedule = Schedule::whereTime('time', '>=', date("h:i:00"))->whereTime('time', '<=', date("h:i:59"))->first();
+        if(!isset($schedule)) return;
         $streets = Street::all();
-        foreach ($schedules as $schedule ) {
+        echo $schedule->state.' - '.$schedule->percent;
             foreach ($streets as $street) {
                 $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
                 $street->sendToESP();
             }
-        }
     }
 }
