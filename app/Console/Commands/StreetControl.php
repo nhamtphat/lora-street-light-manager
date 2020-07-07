@@ -40,8 +40,7 @@ class StreetControl extends Command
      */
     public function handle()
     {
-        $schedule = Schedule::whereTime('time', '>=', date("h:i:00"))->whereTime('time', '<=', date("h:i:59"))->first();
-        echo date("h:i:s");
+        $schedule = Schedule::whereTime('time', '>=', date("H:i:00"))->whereTime('time', '<=', date("H:i:59"))->first();
         if(!isset($schedule)) return;
         $streets = Street::all();
         echo $schedule->state.' - '.$schedule->percent;
