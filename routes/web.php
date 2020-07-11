@@ -28,7 +28,7 @@ Route::name('user.')->middleware('auth')->group(function()
     Route::get('/checkauth', function ()
     {
         return 'Loged in successed!';
-    });
+    }); 
     Route::get('/logout','LoginController@getLogout')->name('logout.get');
     Route::get('/', 'DashboardController@getView')->name('dashboard.view.get');
 
@@ -42,6 +42,8 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/{id}/delete', 'StreetController@getDelete')->name('delete.get');
         Route::get('/{id}/onoff', 'StreetController@getOnoff')->name('onoff.get');
         Route::get('/{id}/percent/{value}', 'StreetController@getPercent')->name('percent.get');
+        Route::get('/{id}', 'StreetController@getView')->name('view.get');
+        Route::get('/{id}/refresh', 'StreetController@getRefresh')->name('refresh.get');
     });
 
     Route::name('schedule.')->prefix('/schedules')->group(function ()
@@ -49,5 +51,10 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/', 'ScheduleController@getList')->name('list.get');
         Route::get('/add', 'ScheduleController@getAdd')->name('add.get');
         Route::post('/add', 'ScheduleController@postAdd')->name('add.post');
+    });
+    
+    Route::name('lamp.')->prefix('/lamps')->group(function ()
+    {
+        Route::get('/{id}/refresh', 'LampController@getRefresh')->name('refresh.get');
     });
 });

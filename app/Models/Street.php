@@ -40,11 +40,13 @@ class Street extends Model
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
             // CURLOPT_URL => 'http://'.$this->domain.'/?ledid=0000&level='.sprintf("%02d", $level),
-            CURLOPT_URL => 'https://light.techking.vn/ok',
+            CURLOPT_URL => 'http://light.techking.vn/ok',
             CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
             CURLOPT_SSL_VERIFYPEER => false
         ));
-        $resp = curl_exec($curl);
-        return $resp;
+        do {
+            $resp = curl_exec($curl);
+            sleep(1);
+        } while ($resp != 'OK');
     }
 }

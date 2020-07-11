@@ -7,6 +7,8 @@ use App\Models\Street;
 use App\Models\Lamp;
 use App\Models\Schedule;
 
+// use App\Providers\StreetControl;
+
 class StreetControl extends Command
 {
     /**
@@ -46,7 +48,7 @@ class StreetControl extends Command
         echo $schedule->state.' - '.$schedule->percent;
             foreach ($streets as $street) {
                 $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
-                $street->sendToESP();
+                // event(new StreetControled($street, $street->percent));
             }
     }
 }

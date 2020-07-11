@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Street;
 use App\Models\Lamp;
 
+use App\Providers\StreetControled;
+
 class StreetController extends Controller
 {
     /**
@@ -17,6 +19,17 @@ class StreetController extends Controller
     {
         $data['streets'] = Street::all();
         return view('street-list', $data);
+    }
+
+    /**
+     * Lấy danh sách tất cả các tuyến đường
+     *
+     * @return void
+     */
+    public function getView($street_id)
+    {
+        $data['street'] = Street::findOrFail($street_id);
+        return view('street-view', $data);
     }
 
 
@@ -119,16 +132,17 @@ class StreetController extends Controller
     {
         $street = Street::findOrFail($street_id);
         if($street->state=='on') {
-            $resp = $street->sendToESP(0);
-            if ($resp == 'OK') $street->update(['state' => 'off']);
+            event(new StreetControled($street, 0));
+            $street->update(['state' => 'off']);
+            return 'Đã tắt tuyến '.$street->name.'.';
         }
 
         
         elseif($street->state=='off') {
-            $resp = $street->sendToESP();
-            if ($resp == 'OK') $street->update(['state' => 'on']);
+            event(new StreetControled($street, $street->percent));
+            $street->update(['state' => 'on']);
+            return 'Đã bật tuyến '.$street->name.'.';
         }
-        return redirect()->back();
     }
 
     /**
@@ -143,7 +157,7 @@ class StreetController extends Controller
         $street->update(['percent' => $value]);
 
         if ($street->state == 'on') {
-            $resp = $street->sendToESP();
+            event(new StreetControled($street, $street->percent));
             return 'Đã điều chỉnh độ sáng thành mức '.$value.'.';
         }
 
