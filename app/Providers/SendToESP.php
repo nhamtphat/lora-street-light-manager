@@ -20,23 +20,12 @@ class SendToESP implements ShouldQueue
 
     /**
      * Handle the event.
+     * Dùng curl gửi dữ liệu đến ESP, với các tên miền được lưu sẵn
      *
      * @param  StreetControled  $event
      * @return void
      */
     public function handle(StreetControled $event)
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://'.$event->street->domain.'/?ledid=0000&level='.sprintf("%02d", $event->level),
-            CURLOPT_URL => 'http://light.techking.vn/ok',
-            CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
-            CURLOPT_SSL_VERIFYPEER => false
-        ));
-        do {
-            $resp = curl_exec($curl);
-            sleep(1);
-        } while ($resp != 'OK');
     }
 }

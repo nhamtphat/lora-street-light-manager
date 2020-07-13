@@ -27,26 +27,45 @@ class Street extends Model
     {
         return $this->state=='error';
     }
-
-    /**
-     * Dùng curl gửi dữ liệu đến ESP, với các tên miền được lưu sẵn
-     *
-     * @return response
-     */
-    public function sendToESP($level = null)
+    
+    public function SendToESP($level = NULL)
     {
-        if ($level==null) $level = $this->percent;
+        if ($level == NULL) $level = $this->percent;
+        $ledid = 0;
+
+        // SET URL
+        $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
+        // $curl_url = 'http://light.techking.vn/ok';
+
+        // CURL INIT
         $curl = curl_init();
-        curl_setopt_array($curl, array(
+        $curl_param = array(
             CURLOPT_RETURNTRANSFER => 1,
-            // CURLOPT_URL => 'http://'.$this->domain.'/?ledid=0000&level='.sprintf("%02d", $level),
-            CURLOPT_URL => 'http://light.techking.vn/ok',
+            CURLOPT_URL => $curl_url,
             CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
             CURLOPT_SSL_VERIFYPEER => false
-        ));
-        do {
+        );
+        curl_setopt_array($curl, $curl_param);
+
+        // LOG FILE INIT, "a" mode is append mode
+        $myfile = fopen("esp-log.txt", "a") or die("Unable to open file!");
+
+        // CURL EXEC, exit if resp is OK
+        for ($loop=0; $loop < 3; $loop++) { 
             $resp = curl_exec($curl);
-            sleep(1);
-        } while ($resp != 'OK');
+            fwrite($myfile, date('H:i:s').' ==> '.$curl_url.' ==> '.$resp."\n");
+            if ($resp == 'OK') break;
+        }
+
+        // If resp isn't OK, set state to error
+        if ($resp != 'OK') {
+            $this->state = 'error';
+            $this->save();
+            $resp = 'error';
+        }
+
+        fclose($myfile);
+
+        return $resp;
     }
 }

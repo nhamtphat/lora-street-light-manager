@@ -131,17 +131,30 @@ class StreetController extends Controller
     public function getOnoff($street_id)
     {
         $street = Street::findOrFail($street_id);
+
         if($street->state=='on') {
-            event(new StreetControled($street, 0));
-            $street->update(['state' => 'off']);
-            return 'Đã tắt tuyến '.$street->name.'.';
+            $level = 0;
+            $newstate = 'off';
+            $newmsg = 'Đã tắt tuyến '.$street->name.'.';
         }
 
         
         elseif($street->state=='off') {
-            event(new StreetControled($street, $street->percent));
-            $street->update(['state' => 'on']);
-            return 'Đã bật tuyến '.$street->name.'.';
+            $level = $street->percent;
+            $newstate = 'on';
+            $newmsg = 'Đã bật tuyến '.$street->name.'.';
+        }
+
+        
+        // event(new StreetControled($street, 0));
+        $resp = $street->SendToESP($level);
+        if ($resp=='OK')
+        {
+            $street->update(['state' => $newstate]);
+            return array('state'=>$newstate, 'msg'=> $newmsg);
+        } elseif ($resp == 'error') {
+            $street->update(['state' => 'error']);
+            return array('state'=>'error', 'msg'=>'Không thể kết nối tuyến '.$street->name.'.');
         }
     }
 
@@ -162,5 +175,24 @@ class StreetController extends Controller
         }
 
         return 'Đèn đang tắt, độ sáng được lưu thành mức '.$value.'.';
+    }
+
+    public function checkError()
+    {
+        $lamps_id = Lamp::where('status', 'error')->get()->pluck('id');
+        return $lamps_id;
+    }
+
+    public function getRefresh($street_id)
+    {
+        $street = Street::findOrFail($street_id);
+        foreach ($street->lamps as $lamp) {
+            $lamp->status = 'normal';
+            $lamp->save();
+        } 
+        event(new StreetControled($street, 0));
+        $street->update(['state' => 'off']);
+
+        return redirect()->route('user.dashboard.view.get');
     }
 }

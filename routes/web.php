@@ -37,13 +37,14 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/', 'StreetController@getList')->name('list.get');
         Route::get('/add', 'StreetController@getAdd')->name('add.get');
         Route::post('/add', 'StreetController@postAdd')->name('add.post');
+        Route::get('/checkerror', 'StreetController@checkError')->name('checkerror.get');
         Route::get('/{id}/edit', 'StreetController@getEdit')->name('edit.get');
         Route::post('/{id}/edit', 'StreetController@postEdit')->name('edit.post');
         Route::get('/{id}/delete', 'StreetController@getDelete')->name('delete.get');
         Route::get('/{id}/onoff', 'StreetController@getOnoff')->name('onoff.get');
+        Route::get('/{id}/refresh', 'StreetController@getRefresh')->name('refresh.get');
         Route::get('/{id}/percent/{value}', 'StreetController@getPercent')->name('percent.get');
         Route::get('/{id}', 'StreetController@getView')->name('view.get');
-        Route::get('/{id}/refresh', 'StreetController@getRefresh')->name('refresh.get');
     });
 
     Route::name('schedule.')->prefix('/schedules')->group(function ()
