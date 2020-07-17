@@ -36,7 +36,10 @@ class Street extends Model
         if(env('APP_ENV') == 'production') {
             $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
         }
-        $curl_url = 'http://light.techking.vn/ok';
+        if(env('APP_ENV') == 'local') {
+            $curl_url = 'http://light.techking.vn/ok';
+        }
+        
 
         // CURL INIT
         $curl = curl_init();
