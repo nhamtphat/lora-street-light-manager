@@ -37,7 +37,8 @@ class Street extends Model
             $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
         }
         if(env('APP_ENV') == 'local') {
-            $curl_url = 'http://light.techking.vn/ok';
+            $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
+            // $curl_url = 'http://light.techking.vn/ok';
         }
         
 
@@ -47,7 +48,8 @@ class Street extends Model
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $curl_url,
             CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
-            CURLOPT_SSL_VERIFYPEER => false
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 10
         );
         curl_setopt_array($curl, $curl_param);
 
@@ -57,6 +59,7 @@ class Street extends Model
         // CURL EXEC, exit if resp is OK
         for ($loop=0; $loop < 3; $loop++) { 
             $resp = curl_exec($curl);
+
             fwrite($myfile, date('H:i:s').' ==> '.$curl_url.' ==> '.$resp."\n");
             if ($resp == 'OK') break;
         }
