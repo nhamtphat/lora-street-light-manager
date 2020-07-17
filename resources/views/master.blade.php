@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="/" class="brand-link">
       <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">Quản lý</span>
@@ -169,27 +169,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fa fa-dashboard"></i>
+          <li class="nav-item">
+            <a href="{{route('user.dashboard.view.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.view.get') === 0) ? 'active' : '' }}">
+              <i class="fa fa-dashboard nav-icon"></i>
+              <p>Bảng điều khiển</p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview {{ (strpos(Route::currentRouteName(), 'user.schedule') === 0) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule') === 0) ? 'active' : '' }}">
+              <i class="nav-icon fa fa-clock-o"></i>
               <p>
-                Trang mẫu
+                Hẹn giờ
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('user.dashboard.view.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.view.get') === 0) ? 'active' : '' }}">
+                <a href="{{route('user.schedule.list.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule.list.get') === 0) ? 'active' : '' }}">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Bảng điều khiển</p>
+                  <p>Các hẹn giờ đã đặt</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('user.schedule.list.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule.list.get') === 0) ? 'active' : '' }}">
+                <a href="{{route('user.schedule.add.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule.add.get') === 0) ? 'active' : '' }}">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Hẹn giờ</p>
+                  <p>Thêm hẹn giờ</p>
                 </a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview {{ (strpos(Route::currentRouteName(), 'user.street') === 0) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.street') === 0) ? 'active' : '' }}">
+              <i class="nav-icon fa fa-road"></i>
+              <p>
+                Tuyến đường
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('user.street.list.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.street.list.get') === 0) ? 'active' : '' }}">
                   <i class="fa fa-circle-o nav-icon"></i>

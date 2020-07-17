@@ -22,4 +22,11 @@ class ScheduleController extends Controller
         Schedule::create($req->only(['name', 'time', 'state', 'percent']));
         return redirect()->route('user.schedule.list.get');
     }
+
+    public function getDelete($schedule_id)
+    {
+        $schedule = Schedule::findOrFail($schedule_id);
+        $schedule->delete();
+        return $this->getList();
+    }
 }

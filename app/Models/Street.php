@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Street extends Model
 {
     public $timestamps = false;
-    public $fillable = ['name', 'state', 'percent'];
+    public $fillable = ['name', 'domain', 'state', 'percent'];
 
     public function lamps() {
         return $this->hasMany('App\Models\Lamp');
@@ -28,14 +28,13 @@ class Street extends Model
         return $this->state=='error';
     }
     
-    public function SendToESP($level = NULL)
+    public function SendToESP($level)
     {
-        if ($level == NULL) $level = $this->percent;
         $ledid = 0;
 
         // SET URL
         $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
-        // $curl_url = 'http://light.techking.vn/ok';
+        $curl_url = 'http://light.techking.vn/ok';
 
         // CURL INIT
         $curl = curl_init();

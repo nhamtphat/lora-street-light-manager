@@ -7,14 +7,15 @@ function setPercent(id) {
     var value = $('#percentof' + id).val();
     $.get('/streets/' + id + '/percent/' + value, function(ketqua) {
         onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-play"></i>');
-        alert(ketqua);
+        console.log(ketqua)
     });
 }
 
-function setOnoff(id) {
+function setOnOff(id, set) {
     var onoff = document.getElementById("btn" + id);
-    onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-power-off"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
-    $.get('/streets/' + id + '/onoff', function(ketqua) {
+    if(set==1) onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-lightbulb-o"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
+    else if(set==0) onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-power-off"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
+    $.get('/streets/' + id + '/onoff/' + set, function(ketqua) {
         console.log(ketqua);
         var element = document.getElementById("street" + id);
         if (ketqua.state == "off") {
@@ -31,7 +32,12 @@ function setOnoff(id) {
                                                 .replace('Đang bật', 'Mất kết nối') 
                                                 .replace('Đang tắt', 'Mất kết nối');
         }
-        onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-power-off"></i>');
+        
+        if(set==1) onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-lightbulb-o"></i>');
+        else if(set==0) onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-power-off"></i>');
+        
+    }).fail( function(xhr, textStatus, errorThrown) {
+        console.log(xhr.status);
     });
 }
 </script>
@@ -62,7 +68,7 @@ function setOnoff(id) {
         <div class="container-fluid">
             <div class="row">
                 @foreach($streets as $street)
-                <div class="col-xl-3 col-lg-6 col-sm-12" >
+                <div class="col-xl-4 col-lg-6 col-sm-12" >
                     <div class="card card-default">
                         <div class="card-header" id="street{{$street->id}}">
                             <h3 class="card-title">{{$street->name}}</h3>
@@ -109,13 +115,18 @@ function setOnoff(id) {
                                 <a class="btn btn-app" onclick="setPercent({{$street->id}})">
                                     <i class="fa fa-play"></i> Chỉnh độ sáng
                                 </a>
-                                <a class="btn btn-app" onclick="setOnoff({{$street->id}})">
-                                    <i class="fa fa-power-off"></i> Bật/Tắt Đèn
+                                <a class="btn btn-app" onclick="setOnOff({{$street->id}},1)">
+                                    <i class="fa fa-lightbulb-o"></i> Bật Đèn
+                                </a>
+                                <a class="btn btn-app" onclick="setOnOff({{$street->id}},0)">
+                                    <i class="fa fa-power-off"></i> Tắt Đèn
                                 </a>
                                 <a href="{{route('user.street.view.get', ['id'=>$street->id])}}" class="btn btn-app">
                                     <i class="fa fa-briefcase"></i> Quản lý
                                 </a>
-                                <a href="{{route('user.street.refresh.get', ['id'=>$street->id])}}">F5</a>
+                                <a href="{{route('user.street.refresh.get', ['id'=>$street->id])}}" class="btn btn-app">
+                                    <i class="fa fa-refresh"></i> Reset
+                                </a>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -145,7 +156,7 @@ function setOnoff(id) {
                     lamp.outerHTML = newhtml;
                 });
             });
-        }, 1000);
+        }, 3000);
     });
 </script>
 @stop

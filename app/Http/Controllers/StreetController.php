@@ -57,6 +57,7 @@ class StreetController extends Controller
         }
 
         $data['name'] = $req->name;
+        $data['domain'] = $req->domain;
         $street = Street::create($data);
 
         foreach($req->lamp_uid as $lamp_uid) {
@@ -128,25 +129,27 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function getOnoff($street_id)
+    public function getOnoff($street_id, $set)
     {
+        // return abort(500, 'custom error');
         $street = Street::findOrFail($street_id);
 
-        if($street->state=='on') {
+        if($street->state=='error') return array('state'=>'error', 'msg'=>'Không thể kết nối tuyến '.$street->name.'.');
+        
+        if($set == 0) {
             $level = 0;
             $newstate = 'off';
             $newmsg = 'Đã tắt tuyến '.$street->name.'.';
         }
 
         
-        elseif($street->state=='off') {
+        elseif($set == 1) {
             $level = $street->percent;
             $newstate = 'on';
             $newmsg = 'Đã bật tuyến '.$street->name.'.';
         }
 
         
-        // event(new StreetControled($street, 0));
         $resp = $street->SendToESP($level);
         if ($resp=='OK')
         {
@@ -170,7 +173,8 @@ class StreetController extends Controller
         $street->update(['percent' => $value]);
 
         if ($street->state == 'on') {
-            event(new StreetControled($street, $street->percent));
+            $resp = $street->SendToESP($street->percent);
+            
             return 'Đã điều chỉnh độ sáng thành mức '.$value.'.';
         }
 
@@ -190,8 +194,9 @@ class StreetController extends Controller
             $lamp->status = 'normal';
             $lamp->save();
         } 
-        event(new StreetControled($street, 0));
-        $street->update(['state' => 'off']);
+        
+        $resp = $street->SendToESP(0);
+        $street->update(['state' => 'off', 'percent' => 10]);
 
         return redirect()->route('user.dashboard.view.get');
     }
