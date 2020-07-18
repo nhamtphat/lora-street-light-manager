@@ -131,10 +131,7 @@ class StreetController extends Controller
      */
     public function getOnoff($street_id, $set)
     {
-        // return abort(500, 'custom error');
         $street = Street::findOrFail($street_id);
-
-        if($street->state=='error') return array('state'=>'error', 'msg'=>'Không thể kết nối tuyến '.$street->name.'.');
         
         if($set == 0) {
             $level = 0;
@@ -142,14 +139,12 @@ class StreetController extends Controller
             $newmsg = 'Đã tắt tuyến '.$street->name.'.';
         }
 
-        
         elseif($set == 1) {
             $level = $street->percent;
             $newstate = 'on';
             $newmsg = 'Đã bật tuyến '.$street->name.'.';
         }
 
-        
         $resp = $street->SendToESP($level);
         if ($resp=='OK')
         {
@@ -195,7 +190,6 @@ class StreetController extends Controller
             $lamp->save();
         } 
         
-        $resp = $street->SendToESP(0);
         $street->update(['state' => 'off', 'percent' => 10]);
 
         return redirect()->route('user.dashboard.view.get');

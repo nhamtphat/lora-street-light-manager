@@ -33,12 +33,11 @@ class Street extends Model
         $ledid = 0;
 
         // SET URL
-        if(env('APP_ENV') == 'production') {
-            $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
+        if(env('APP_TEST', true)) {
+            $curl_url = 'http://light.techking.vn/ok';
         }
-        if(env('APP_ENV') == 'local') {
+        else {
             $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
-            // $curl_url = 'http://light.techking.vn/ok';
         }
         
 
@@ -54,7 +53,7 @@ class Street extends Model
         curl_setopt_array($curl, $curl_param);
 
         // LOG FILE INIT, "a" mode is append mode
-        $myfile = fopen("esp-log.txt", "a") or die("Unable to open file!");
+        $myfile = fopen("esp-log.txt", "a");
 
         // CURL EXEC, exit if resp is OK
         for ($loop=0; $loop < 3; $loop++) { 
@@ -65,7 +64,7 @@ class Street extends Model
         }
 
         // If resp isn't OK, set state to error
-        if ($resp != 'OK') {
+        if ($resp != 'OK' && $resp != 'Busy') {
             $this->state = 'error';
             $this->save();
             $resp = 'error';
