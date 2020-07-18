@@ -33,7 +33,7 @@ class Street extends Model
         $ledid = 0;
 
         // SET URL
-        if(env('APP_TEST', true)) {
+        if(env('APP_TEST', false)) {
             $curl_url = 'http://light.techking.vn/ok';
         }
         else {
