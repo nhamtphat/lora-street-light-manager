@@ -55,6 +55,8 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/', 'ScheduleController@getList')->name('list.get');
         Route::get('/add', 'ScheduleController@getAdd')->name('add.get');
         Route::post('/add', 'ScheduleController@postAdd')->name('add.post');
+        Route::get('/edit/{id}', 'ScheduleController@getEdit')->name('edit.get');
+        Route::post('/edit/{id}', 'ScheduleController@postEdit')->name('edit.post');
         Route::get('/delete/{id}', 'ScheduleController@getDelete')->name('delete.get');
     });
     

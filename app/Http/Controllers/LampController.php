@@ -14,7 +14,7 @@ class LampController extends Controller
         $lamp->save();
         return ["led_id" => $lamp_uid, "status" => "OK"];
     }
-
+    
     public function getRefresh($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);

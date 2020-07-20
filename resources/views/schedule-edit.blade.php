@@ -43,23 +43,27 @@
                 <div class="card-body" id="form-field">
                   <div class="form-group">
                     <label for="name">Đặt tên:</label>
-                    <input name="name" type="text" class="form-control" id="name" required>
+                    <input name="name" type="text" class="form-control" id="name" value="{{ $schedule->name }}" required>
                   </div>
                   <div class="form-group">
                     <label for="name">Thời gian:</label>
-                    <input name="time" class="form-control" id="time" required>
+                    <input name="time" class="form-control" id="time" value="{{ $schedule->time }}" required>
                   </div>
                   <div class="form-group">
                     <label for="staff_id">Lệnh:</label>
-                    <select name="state" id="staff_id" class="form-control select2" style="width: 100%;">
+                    <select name="state" id="staff_id" class="form-control select2" style="width: 100%;" disabled>
+                    @if($schedule->state == 'setpercent')
                       <option value="setpercent">Chỉnh độ sáng</option>
+                    @elseif($schedule->state == 'off')
                       <option value="off">Tắt đền</option>
+                    @elseif($schedule->state == 'on')
                       <option value="on">Bật đèn</option>
+                    @endif
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="name">Độ sáng:</label>
-                    <input name="percent" type="number" min="0" max="10" class="form-control" id="name" required>
+                    <input name="percent" type="number" min="0" max="10" class="form-control" value="{{ $schedule->percent }}" id="name" required>
                   </div>
                 </div> 
                 <!-- /.card-body -->

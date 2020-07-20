@@ -55,7 +55,7 @@
                     <td>{{ $schedule->percent }}</td>
                     <td>
                       <div class="btn-group">
-                        <button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></button>
+                        <a href="{{ route('user.schedule.edit.get', ['id' => $schedule->id]) }}" type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></a>
                         <a href="{{ route('user.schedule.delete.get', ['id' => $schedule->id]) }}" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                       </div>
                     </td>

@@ -29,4 +29,10 @@ class ScheduleController extends Controller
         $schedule->delete();
         return $this->getList();
     }
+
+    public function getEdit($schedule_id)
+    {
+        $data['schedule'] = Schedule::findOrFail($schedule_id);
+        return view('schedule-edit', $data);
+    }
 }
