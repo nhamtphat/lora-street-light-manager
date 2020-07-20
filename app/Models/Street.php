@@ -34,7 +34,7 @@ class Street extends Model
 
         // SET URL
         if(env('ESP_URL') != null) {
-            $curl_url = env('ESP_URL');
+            $curl_url = env('ESP_URL').'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);;
         } else {
             if(env('APP_TEST')) {
                 $curl_url = 'http://light.techking.vn/ok';
