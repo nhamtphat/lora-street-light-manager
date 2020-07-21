@@ -52,6 +52,10 @@
                                         placeholder="Tên tuyến đường hoặc cụm đèn" value="{{$street->name}}" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="domain">Tên miền / Địa chỉ IP:</label>
+                                    <input name="domain" type="text" class="form-control" id="domain" placeholder="Tên miền / Địa chỉ IP" value="{{$street->domain}}" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="cpu">Ấn nút để thêm đèn</label>
                                 </div>
                                 @foreach($street->lamps as $lamp)

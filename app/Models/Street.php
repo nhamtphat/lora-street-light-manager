@@ -52,6 +52,7 @@ class Street extends Model
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $curl_url,
             CURLOPT_USERAGENT => 'Chrome/83.0.4103.116',
+            CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_TIMEOUT => 10
         );
