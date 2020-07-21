@@ -40,7 +40,7 @@ class Street extends Model
                 $curl_url = 'http://light.techking.vn/ok';
             }
             else {
-                $curl_url = 'https://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
+                $curl_url = 'http://'.$this->domain.'/?ledid='.sprintf("%04d", $ledid).'&level='.sprintf("%02d", $level);
             }
         }
         
