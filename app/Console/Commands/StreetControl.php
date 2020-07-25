@@ -47,7 +47,11 @@ class StreetControl extends Command
         $streets = Street::all();
         echo $schedule->state.' - '.$schedule->percent;
             foreach ($streets as $street) {
-                $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
+                if($schedule->state == 'setpercent') {
+                    $street->update(['percent' => $schedule->percent]);
+                } else {
+                    $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
+                }
                 $level = ($schedule->state == 'off')? 0 : $schedule->percent;
                 $resp = $street->SendToESP($level);
             }
