@@ -52,7 +52,7 @@ class StreetControl extends Command
                 } else {
                     $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
                 }
-                $level = ($schedule->state == 'off')? 0 : $schedule->percent;
+                $level = ($schedule->state == 'off' || ($schedule->state == 'setpercent' && $street->state == 'off'))? 0 : $schedule->percent;
                 $resp = $street->SendToESP($level);
             }
     }
