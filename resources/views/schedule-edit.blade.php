@@ -55,7 +55,7 @@
                     @if($schedule->state == 'setpercent')
                       <option value="setpercent">Chỉnh độ sáng</option>
                     @elseif($schedule->state == 'off')
-                      <option value="off">Tắt đền</option>
+                      <option value="off">Tắt đèn</option>
                     @elseif($schedule->state == 'on')
                       <option value="on">Bật đèn</option>
                     @endif

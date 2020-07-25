@@ -53,7 +53,7 @@
                     <label for="staff_id">Lệnh:</label>
                     <select name="state" id="staff_id" class="form-control select2" style="width: 100%;">
                       <option value="setpercent">Chỉnh độ sáng</option>
-                      <option value="off">Tắt đền</option>
+                      <option value="off">Tắt đèn</option>
                       <option value="on">Bật đèn</option>
                     </select>
                   </div>
