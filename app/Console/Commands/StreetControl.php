@@ -48,7 +48,8 @@ class StreetControl extends Command
         echo $schedule->state.' - '.$schedule->percent;
             foreach ($streets as $street) {
                 $street->update(['state' => $schedule->state, 'percent' => $schedule->percent]);
-                // event(new StreetControled($street, $street->percent));
+                $level = ($schedule->state == 'on')? $schedule->state : 0;
+                $resp = $street->SendToESP($level);
             }
     }
 }
