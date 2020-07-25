@@ -38,7 +38,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{route('user.schedule.add.post')}}" method="post">
+              <form role="form" action="{{route('user.schedule.edit.post', ['id'=>$schedule->id])}}" method="post">
                 {{csrf_field()}}
                 <div class="card-body" id="form-field">
                   <div class="form-group">

@@ -35,4 +35,13 @@ class ScheduleController extends Controller
         $data['schedule'] = Schedule::findOrFail($schedule_id);
         return view('schedule-edit', $data);
     }
+
+    public function postEdit($schedule_id, Request $req)
+    {
+        $schedule = Schedule::findOrFail($schedule_id);
+        $data = $req->only(['name', 'time', 'percent', 'state']);
+        $schedule->update($data);
+
+        return redirect()->route('user.schedule.list.get');
+    }
 }
