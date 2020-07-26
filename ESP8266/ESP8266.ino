@@ -6,12 +6,15 @@ SoftwareSerial ARD_ESP(14,12);
 #include <Arduino_JSON.h>
 #include <ESP8266WiFiMulti.h>
 ESP8266WiFiMulti WiFiMulti;
-const char* ssid = "Nokia Wifi";
-const char* password = "12345678";
-//IPAddress ip(192, 168, 1, 101);
-//IPAddress gateway(192, 168, 1, 1); 
-//IPAddress subnet(255, 255, 255, 0); 
+const char* ssid = "ThemNguyen";
+const char* password = "themnguyen";
+IPAddress gateway(192, 168, 43, 1); 
+IPAddress subnet(255, 255, 255, 0); 
 String host = "http://themvn.icu/bao-loi/";
+//int  reportid[3] = {1,2,3};
+//IPAddress ip(192, 168, 43, 141);
+int  reportid[3] = {4,5,6};
+IPAddress ip(192, 168, 43, 142);
 int ledPin = 2;
 WiFiServer server(80);
  
@@ -24,7 +27,7 @@ void setup() {
     Serial.println();
     Serial.println();
     Serial.print("Connecting to ");
-   // WiFi.config(ip, gateway, subnet);
+    WiFi.config(ip, gateway, subnet);
     Serial.println(ssid);     
     WiFi.begin(ssid, password);     
     while (WiFi.status() != WL_CONNECTED) {
@@ -123,17 +126,17 @@ void read_arduino(){
       case 10:
          //send to server faile
          error_lora_TTL=true;
-         serverName=host+"4";
+         serverName=host+String(reportid[0]);
       break;
       case 20:
          //send to server faile
          error_lora_TTL=true;
-         serverName=host+"5";
+         serverName=host+String(reportid[1]);
       break;
       case 30:
          //send to server faile
          error_lora_TTL=true;
-         serverName=host+"6";
+         serverName=host+String(reportid[2]);
       break;
     }
   }

@@ -22,4 +22,22 @@ class LampController extends Controller
         $lamp->save();
         return redirect()->route('user.street.view.get', ['id'=>$lamp->street->id]);
     }
+
+    public function getOn($lamp_id)
+    {
+        $lamp = Lamp::findOrFail($lamp_id);
+        $street = $lamp->street;
+        $street->SendToESP($street->percent, $lamp->uid);
+
+        return redirect()->route('user.street.view.get', ['id'=>$street->id]);
+    }
+    
+    public function getOff($lamp_id)
+    {
+        $lamp = Lamp::findOrFail($lamp_id);
+        $street = $lamp->street;
+        $street->SendToESP(0, $lamp->uid);
+        
+        return redirect()->route('user.street.view.get', ['id'=>$street->id]);
+    }
 }

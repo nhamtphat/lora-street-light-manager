@@ -28,9 +28,8 @@ class Street extends Model
         return $this->state=='error';
     }
     
-    public function SendToESP($level)
+    public function SendToESP($level, $ledid=0)
     {
-        $ledid = 0;
 
         // SET URL
         if(env('ESP_URL') != null) {

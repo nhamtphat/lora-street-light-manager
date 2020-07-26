@@ -56,7 +56,11 @@
                                         @else
                                         <td><span class="badge bg-danger">Lỗi</span></td>
                                         @endif
-                                        <td><a href="{{route('user.lamp.refresh.get', ['id'=>$lamp->id])}}" type="button" class="btn btn-default"><i class="fa fa-refresh"></i></a></td>
+                                        <td>
+                                            <a href="{{route('user.lamp.on.get', ['id'=>$lamp->id])}}" type="button" class="btn btn-default"><i class="fa fa-lightbulb-o"></i></a>
+                                            <a href="{{route('user.lamp.off.get', ['id'=>$lamp->id])}}" type="button" class="btn btn-default"><i class="fa fa-power-off"></i></a>
+                                            <a href="{{route('user.lamp.refresh.get', ['id'=>$lamp->id])}}" type="button" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>

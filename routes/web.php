@@ -63,5 +63,7 @@ Route::name('user.')->middleware('auth')->group(function()
     Route::name('lamp.')->prefix('/lamps')->group(function ()
     {
         Route::get('/{id}/refresh', 'LampController@getRefresh')->name('refresh.get');
+        Route::get('/{id}/on', 'LampController@getOn')->name('on.get');
+        Route::get('/{id}/off', 'LampController@getOff')->name('off.get');
     });
 });
