@@ -27,7 +27,7 @@ void setup() {
     Serial.println();
     Serial.println();
     Serial.print("Connecting to ");
-    WiFi.config(ip, gateway, subnet);
+//    WiFi.config(ip, gateway, subnet);
     Serial.println(ssid);     
     WiFi.begin(ssid, password);     
     while (WiFi.status() != WL_CONNECTED) {
@@ -123,17 +123,17 @@ void read_arduino(){
   }
   if(incom==true){
     switch(ID){
-      case 10:
+      case 40:
          //send to server faile
          error_lora_TTL=true;
          serverName=host+String(reportid[0]);
       break;
-      case 20:
+      case 50:
          //send to server faile
          error_lora_TTL=true;
          serverName=host+String(reportid[1]);
       break;
-      case 30:
+      case 60:
          //send to server faile
          error_lora_TTL=true;
          serverName=host+String(reportid[2]);
