@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+// Models
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
 use App\Models\Street;
 use App\Models\Lamp;
-
-use App\Providers\StreetControled;
 
 class StreetController extends Controller
 {
@@ -40,7 +43,8 @@ class StreetController extends Controller
      */
     public function getAdd()
     {
-        return view('street-add');
+        $data['provinces'] = Province::all();
+        return view('street-add', $data);
     }
 
 
@@ -56,8 +60,13 @@ class StreetController extends Controller
             return redirect()->back()->withInput()->withError('Trùng các id '.$lamps->pluck('uid'));
         }
 
-        $data['name'] = $req->name;
-        $data['domain'] = $req->domain;
+        $data = $req->validate([
+            'name' => 'required|string',
+            'domain' => 'required|string',
+            'ward_id' => 'required|integer',
+            'district_id' => 'required|integer',
+            'province_id' => 'required|integer'
+        ]);
         $street = Street::create($data);
 
         foreach($req->lamp_uid as $lamp_uid) {
@@ -78,6 +87,9 @@ class StreetController extends Controller
      */
     public function getEdit($street_id)
     {
+        $data['provinces'] = Province::all();
+        // $data['districts'] = District::all();
+        // $data['wards'] = Ward::all();
         $data['street'] = Street::findOrFail($street_id);
         return view('street-edit', $data);
     }
@@ -92,8 +104,17 @@ class StreetController extends Controller
     public function postEdit($street_id, Request $req)
     {
         $street = Street::findOrFail($street_id);
-        $street->name = $req->name;
-        $street->save();
+        
+        $data = $req->validate([
+            'name' => 'required|string',
+            'domain' => 'required|string',
+            'ward_id' => 'required|integer',
+            'district_id' => 'required|integer',
+            'province_id' => 'required|integer'
+        ]);
+        $street->update($data);
+
+
         $lampofstreet = $street->lamps->pluck('uid')->toArray();
         $willadd = array_diff($req->lamp_uid, $lampofstreet);
         $willdel = array_diff($lampofstreet, $req->lamp_uid);
@@ -123,74 +144,22 @@ class StreetController extends Controller
         return redirect()->route('user.street.list.get');
     }
 
-    /**
-     * Thay đổi trạng thái đèn của tuyến đường
-     * Nếu ON => OFF, nếu OFF => ON
-     *
-     * @return void
-     */
-    public function getOnoff($street_id, $set)
-    {
-        $street = Street::findOrFail($street_id);
-        
-        if($set == 0) {
-            $level = 0;
-            $newstate = 'off';
-            $newmsg = 'Đã tắt tuyến '.$street->name.'.';
-        }
-
-        elseif($set == 1) {
-            $level = $street->percent;
-            $newstate = 'on';
-            $newmsg = 'Đã bật tuyến '.$street->name.'.';
-        }
-
-        $resp = $street->SendToESP($level);
-        if ($resp=='OK')
-        {
-            $street->update(['state' => $newstate]);
-            return array('state'=>$newstate, 'msg'=> $newmsg);
-        } elseif ($resp == 'error') {
-            $street->update(['state' => 'error']);
-            return array('state'=>'error', 'msg'=>'Không thể kết nối tuyến '.$street->name.'.');
-        }
-    }
-
-    /**
-     * Ajax thay đổi độ sáng của đèn
-     * Nếu đèn đang bật, gửi đến ESP
-     *
-     * @return void
-     */
-    public function getPercent($street_id, $value)
-    {
-        $street = Street::findOrFail($street_id);
-        $street->update(['percent' => $value]);
-
-        if ($street->state == 'on') {
-            $resp = $street->SendToESP($street->percent);
-            
-            return 'Đã điều chỉnh độ sáng thành mức '.$value.'.';
-        }
-
-        return 'Đèn đang tắt, độ sáng được lưu thành mức '.$value.'.';
-    }
-
-    public function checkError()
-    {
-        $lamps_id = Lamp::where('status', 'error')->get()->pluck('id');
-        return $lamps_id;
-    }
-
-    public function getRefresh($street_id)
+    public function getReset($street_id)
     {
         $street = Street::findOrFail($street_id);
         foreach ($street->lamps as $lamp) {
-            $lamp->status = 'normal';
-            $lamp->save();
+            $lamp->update([
+                'state' => 'normal', 
+                'status' => 'off', 
+                'level' => 10
+            ]);
         } 
         
-        $street->update(['state' => 'off', 'percent' => 10]);
+        $street->update([
+            'state' => 'normal', 
+            'status' => 'off', 
+            'level' => 10
+        ]);
 
         return redirect()->route('user.dashboard.view.get');
     }

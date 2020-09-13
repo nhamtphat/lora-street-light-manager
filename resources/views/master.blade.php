@@ -221,6 +221,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="{{route('user.provinces.list.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.provinces.list.get') === 0) ? 'active' : '' }}">
+              <i class="fa fa-search nav-icon"></i>
+              <p>Xem theo tỉnh thành</p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

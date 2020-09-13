@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Street extends Model
 {
     public $timestamps = false;
-    public $fillable = ['name', 'domain', 'state', 'percent'];
+    public $fillable = ['name', 'domain', 'state', 'status', 'level', 'ward_id', 'district_id', 'province_id'];
 
     public function lamps() {
         return $this->hasMany('App\Models\Lamp');
@@ -15,17 +15,59 @@ class Street extends Model
 
     public function is_on()
     {
-        return $this->state=='on';
+        return $this->status=='on';
     }
 
     public function is_off()
     {
-        return $this->state=='off';
+        return $this->status=='off';
     }
 
     public function is_error()
     {
         return $this->state=='error';
+    }
+
+    public function is_normal()
+    {
+        return $this->state=='normal';
+    }
+
+    public function ward()
+    {
+        return $this->belongsTo('App\Models\Ward');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('App\Models\District');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo('App\Models\Province');
+    }
+
+    public function setLevelAttribute($new_level)
+    {
+        $this->attributes['level'] = $new_level;
+        $lamps = $this->lamps;
+        foreach ($lamps as $lamp) {
+            $lamp->update([
+                'level' => $new_level
+            ]);
+        }
+    }
+
+    public function setStatusAttribute($new_status)
+    {
+        $this->attributes['status'] = $new_status;
+        $lamps = $this->lamps;
+        foreach ($lamps as $lamp) {
+            $lamp->update([
+                'status' => $new_status
+            ]);
+        }
     }
     
     public function SendToESP($level, $ledid=0)
@@ -54,11 +96,12 @@ class Street extends Model
         $myfile = fopen("esp-log.txt", "a");
 
         // CURL EXEC, exit if resp is OK
-        for ($loop=0; $loop < 3; $loop++) { 
+        for ($loop=0; $loop < 5; $loop++) { 
             $resp = curl_exec($curl);
 
             fwrite($myfile, date('H:i:s').' ==> '.$curl_url.' ==> '.$resp."\n");
             if ($resp == 'OK') break;
+            sleep(1);
         }
 
         // If resp isn't OK, set state to error

@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/getdistricts/{province_id}', 'API\SubdivisionAPI@getDistricts');
+Route::get('/getwards/{district_id}', 'API\SubdivisionAPI@getWards');
+
+Route::name('street.')->prefix('/streets')->group(function ()
+{
+    Route::get('/{id}/on', 'API\StreetController@setOn')->name('on.set');
+    Route::get('/{id}/off', 'API\StreetController@setOff')->name('off.set');
+    Route::get('/{id}/level/{value}', 'API\StreetController@setLevel')->name('level.set');
+    Route::get('/errorlamps', 'API\StreetController@getListOfErrorLamps')->name('lerrorlamps.get');
 });

@@ -21,6 +21,7 @@ Route::get('/bao-loi/{id}', 'LampController@getReport');
 Route::get('/ok', function ()
 {
     \Debugbar::disable();
+    // abort(500);
     echo 'OK';
 });
 
@@ -38,15 +39,10 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/', 'StreetController@getList')->name('list.get');
         Route::get('/add', 'StreetController@getAdd')->name('add.get');
         Route::post('/add', 'StreetController@postAdd')->name('add.post');
-        Route::get('/checkerror', 'StreetController@checkError')->name('checkerror.get');
         Route::get('/{id}/edit', 'StreetController@getEdit')->name('edit.get');
         Route::post('/{id}/edit', 'StreetController@postEdit')->name('edit.post');
         Route::get('/{id}/delete', 'StreetController@getDelete')->name('delete.get');
-        Route::get('/{id}/onoff/{set}', 'StreetController@getOnoff')->name('onoff.get');
-        Route::get('/{id}/on', 'StreetController@getOn')->name('on.get');
-        Route::get('/{id}/off', 'StreetController@getOff')->name('off.get');
-        Route::get('/{id}/refresh', 'StreetController@getRefresh')->name('refresh.get');
-        Route::get('/{id}/percent/{value}', 'StreetController@getPercent')->name('percent.get');
+        Route::get('/{id}/reset', 'StreetController@getReset')->name('refresh.get');
         Route::get('/{id}', 'StreetController@getView')->name('view.get');
     });
 
@@ -65,5 +61,23 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/{id}/refresh', 'LampController@getRefresh')->name('refresh.get');
         Route::get('/{id}/on', 'LampController@getOn')->name('on.get');
         Route::get('/{id}/off', 'LampController@getOff')->name('off.get');
+    });
+
+    Route::prefix('provinces')->name('provinces.')->group(function ()
+    {
+        Route::get('/', 'ProvinceController@list')->name('list.get');
+        Route::get('/{province}/lamps', 'ProvinceController@getListOfLamps')->name('listoflamps.get');
+    });
+
+    Route::prefix('districts')->name('districts.')->group(function ()
+    {
+        Route::get('/', 'DistrictController@list')->name('list.get');
+        Route::get('/{district}/lamps', 'DistrictController@getListOfLamps')->name('listoflamps.get');
+    });
+
+    Route::prefix('wards')->name('wards.')->group(function ()
+    {
+        Route::get('/', 'WardController@list')->name('list.get');
+        Route::get('/{ward}/lamps', 'WardController@getListOfLamps')->name('listoflamps.get');
     });
 });
