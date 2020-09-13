@@ -1,4 +1,4 @@
-@extends('master')
+@extends('admin.layouts.master')
 @section('head')
   <!-- DataTables -->
   <link rel="stylesheet" href="{{secure_asset('plugins/datatables/dataTables.bootstrap4.css')}}">

@@ -21,7 +21,7 @@ class StreetController extends Controller
     public function getList()
     {
         $data['streets'] = Street::all();
-        return view('street-list', $data);
+        return view('admin.streets.list', $data);
     }
 
     /**
@@ -32,7 +32,7 @@ class StreetController extends Controller
     public function getView($street_id)
     {
         $data['street'] = Street::findOrFail($street_id);
-        return view('street-view', $data);
+        return view('admin.streets.view', $data);
     }
 
 
@@ -44,7 +44,7 @@ class StreetController extends Controller
     public function getAdd()
     {
         $data['provinces'] = Province::all();
-        return view('street-add', $data);
+        return view('admin.streets.add', $data);
     }
 
 
@@ -91,7 +91,7 @@ class StreetController extends Controller
         // $data['districts'] = District::all();
         // $data['wards'] = Ward::all();
         $data['street'] = Street::findOrFail($street_id);
-        return view('street-edit', $data);
+        return view('admin.streets.edit', $data);
     }
     
     /**

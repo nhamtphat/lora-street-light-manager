@@ -10,6 +10,6 @@ class DashboardController extends Controller
     public function getView()
     {
         $data['streets'] = Street::all();
-        return view('dashboard', $data);
+        return view('admin.dashboard.index', $data);
     }
 }

@@ -1,4 +1,4 @@
-@extends('master')
+@extends('admin.layouts.master')
 @section('head')
 @stop
 @section('main')

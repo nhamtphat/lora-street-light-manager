@@ -10,11 +10,11 @@ class ScheduleController extends Controller
     public function getList()
     {
         $data['schedules'] = Schedule::all();
-        return view('schedule-list', $data);
+        return view('admin.schedules.list', $data);
     }
     public function getAdd()
     {
-        return view('schedule-add');
+        return view('admin.schedules.add');
     }
 
     public function postAdd(Request $req)
@@ -33,7 +33,7 @@ class ScheduleController extends Controller
     public function getEdit($schedule_id)
     {
         $data['schedule'] = Schedule::findOrFail($schedule_id);
-        return view('schedule-edit', $data);
+        return view('admin.schedules.edit', $data);
     }
 
     public function postEdit($schedule_id, Request $req)
