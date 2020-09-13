@@ -42,7 +42,7 @@ Route::name('user.')->middleware('auth')->group(function()
         Route::get('/{id}/edit', 'StreetController@getEdit')->name('edit.get');
         Route::post('/{id}/edit', 'StreetController@postEdit')->name('edit.post');
         Route::get('/{id}/delete', 'StreetController@getDelete')->name('delete.get');
-        Route::get('/{id}/reset', 'StreetController@getReset')->name('refresh.get');
+        Route::get('/{id}/reset', 'StreetController@getReset')->name('reset.get');
         Route::get('/{id}', 'StreetController@getView')->name('view.get');
     });
 
@@ -58,7 +58,7 @@ Route::name('user.')->middleware('auth')->group(function()
     
     Route::name('lamp.')->prefix('/lamps')->group(function ()
     {
-        Route::get('/{id}/refresh', 'LampController@getRefresh')->name('refresh.get');
+        Route::get('/{id}/reset', 'LampController@getReset')->name('reset.get');
         Route::get('/{id}/on', 'LampController@getOn')->name('on.get');
         Route::get('/{id}/off', 'LampController@getOff')->name('off.get');
     });

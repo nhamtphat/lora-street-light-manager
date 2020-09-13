@@ -82,7 +82,7 @@
                 <a href="{{route('user.street.view.get', ['id'=>$street->id])}}" class="btn btn-app">
                   <i class="fa fa-briefcase"></i> Quản lý
                 </a>
-                <a href="{{route('user.street.refresh.get', ['id'=>$street->id])}}" class="btn btn-app">
+                <a href="{{route('user.street.reset.get', ['id'=>$street->id])}}" class="btn btn-app">
                   <i class="fa fa-refresh"></i> Reset
                 </a>
               </div>

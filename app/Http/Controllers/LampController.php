@@ -15,29 +15,68 @@ class LampController extends Controller
         return ["led_id" => $lamp_uid, "status" => "OK"];
     }
     
-    public function getRefresh($lamp_id)
+    public function getReset($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);
-        $lamp->status = 'normal';
-        $lamp->save();
+        $data = [
+            'state' => 'normal',
+            'status' => 'off'
+        ];
+        $lamp->update($data);
         return redirect()->route('user.street.view.get', ['id'=>$lamp->street->id]);
     }
 
     public function getOn($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);
-        $street = $lamp->street;
-        $street->SendToESP($street->percent, $lamp->uid);
 
+        // Điều khiển ESP
+        $street = $lamp->street;
+        $esp_result = $street->SendToESP($street->percent, $lamp->uid);
+
+        // Nếu thành công, state giữ nguyên, trả kết quả status mới
+        if ($esp_result=='OK') {
+            $data = [
+                'status' => 'on',
+            ];
+        } 
+
+        // Nếu thất bại, trả về state là 'error', status giữ nguyên
+        elseif ($esp_result == 'error') {
+            $data = [
+                'state'=> 'error', 
+            ];
+        }
+
+        // Cập nhật CSDL
+        $lamp->update($data);
         return redirect()->route('user.street.view.get', ['id'=>$street->id]);
     }
     
     public function getOff($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);
+
+        // Điều khiển ESP
         $street = $lamp->street;
-        $street->SendToESP(0, $lamp->uid);
-        
+        $esp_result = $street->SendToESP(0, $lamp->uid);
+
+        // Nếu thành công, state giữ nguyên, trả kết quả status mới
+        if ($esp_result=='OK') {
+            $data = [
+                'status' => 'off',
+            ];
+        } 
+
+        // Nếu thất bại, trả về state là 'error', status giữ nguyên
+        elseif ($esp_result == 'error') {
+            $data = [
+                'state'=> 'error', 
+            ];
+        }
+
+        // Cập nhật CSDL
+        $lamp->update($data);
         return redirect()->route('user.street.view.get', ['id'=>$street->id]);
     }
 }
