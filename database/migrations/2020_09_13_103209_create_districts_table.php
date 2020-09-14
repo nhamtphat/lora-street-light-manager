@@ -20,6 +20,7 @@ class CreateDistrictsTable extends Migration
             $table->foreignId('province_id');
             // $table->timestamps();
         });
+        Artisan::call('db:seed', array('--class' => 'DistrictsTableSeeder'));
     }
 
     /**

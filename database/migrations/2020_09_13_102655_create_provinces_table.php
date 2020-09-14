@@ -19,6 +19,7 @@ class CreateProvincesTable extends Migration
             $table->string('type');
             // $table->timestamps();
         });
+        Artisan::call('db:seed', array('--class' => 'ProvincesTableSeeder'));
     }
 
     /**

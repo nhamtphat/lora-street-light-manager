@@ -20,6 +20,7 @@ class CreateWardsTable extends Migration
             $table->foreignId('district_id');
             // $table->timestamps();
         });
+        Artisan::call('db:seed', array('--class' => 'WardsTableSeeder'));
     }
 
     /**

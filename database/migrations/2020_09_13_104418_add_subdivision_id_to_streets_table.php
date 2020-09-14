@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddWardIdToStreetsTable extends Migration
+class AddSubdivisionIdToStreetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,6 +18,9 @@ class AddWardIdToStreetsTable extends Migration
             $table->foreignId('district_id');
             $table->foreignId('province_id');
         });
+        DB::update('update streets set ward_id = 31144');
+        DB::update('update streets set district_id = 916');
+        DB::update('update streets set province_id = 92');
     }
 
     /**

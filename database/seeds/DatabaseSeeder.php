@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(LampsTableSeeder::class);
         // $this->call(UsersTableSeeder::class);
         // $this->call(SchedulesTableSeeder::class);
-        $this->call(ProvincesTableSeeder::class);
-        $this->call(DistrictsTableSeeder::class);
-        $this->call(WardsTableSeeder::class);
+        // $this->call(ProvincesTableSeeder::class);
+        // $this->call(DistrictsTableSeeder::class);
+        // $this->call(WardsTableSeeder::class);
     }
 }
