@@ -12,11 +12,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Street Light Manager</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
-  <!-- bootstrap slider -->
-  <link rel="stylesheet" href="{{asset('plugins/bootstrap-slider/slider.css')}}">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   @yield('head')
@@ -77,61 +75,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{route('user.dashboard.view.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.view.get') === 0) ? 'active' : '' }}">
-              <i class="fa fa-dashboard nav-icon"></i>
+            <a href="{{route('user.dashboard.index')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.index') === 0) ? 'active' : '' }}">
+              <i class="fas fa-tachometer-alt nav-icon"></i>
               <p>Bảng điều khiển</p>
             </a>
           </li>
-          <li class="nav-item has-treeview {{ (strpos(Route::currentRouteName(), 'user.schedule') === 0) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule') === 0) ? 'active' : '' }}">
-              <i class="nav-icon fa fa-clock-o"></i>
-              <p>
-                Hẹn giờ
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('user.schedule.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule.list') === 0) ? 'active' : '' }}">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Các hẹn giờ đã đặt</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('user.schedule.add.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedule.add.get') === 0) ? 'active' : '' }}">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Thêm hẹn giờ</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview {{ (strpos(Route::currentRouteName(), 'user.street') === 0) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.street') === 0) ? 'active' : '' }}">
-              <i class="nav-icon fa fa-road"></i>
-              <p>
-                Tuyến đường
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('user.street.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.street.list') === 0) ? 'active' : '' }}">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Danh sách tuyến đường</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('user.street.add.get')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.street.add.get') === 0) ? 'active' : '' }}">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Thêm tuyến đường</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-item">
             <a href="{{route('user.provinces.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.provinces.list') === 0) ? 'active' : '' }}">
-              <i class="fa fa-search nav-icon"></i>
+              <i class="fas fa-map-marked-alt nav-icon"></i>
               <p>Xem theo tỉnh thành</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('user.schedules.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedules.list') === 0) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-clock"></i>
+              <p>Hẹn giờ</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('user.streets.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.streets.list') === 0) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-road"></i>
+              <p>Tuyến đường</p>
             </a>
           </li>
         </ul>
@@ -168,19 +132,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
-<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-<!-- Bootstrap slider -->
-<script src="{{asset('plugins/bootstrap-slider/bootstrap-slider.js')}}"></script>
-<script>
-  $(function () {
-    /* BOOTSTRAP SLIDER */
-    $('.slider').slider()
-  })
-</script>
+<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 @yield('scripts')
 </body>
 </html>

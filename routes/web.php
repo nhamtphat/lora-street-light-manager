@@ -27,43 +27,40 @@ Route::get('/ok', function ()
 
 Route::name('user.')->middleware('auth')->group(function() 
 {
-    Route::get('/checkauth', function ()
-    {
-        return 'Loged in successed!';
-    }); 
     Route::get('/logout','LoginController@getLogout')->name('logout.get');
-    Route::get('/', 'DashboardController@getView')->name('dashboard.view.get');
 
-    Route::name('street.')->prefix('/streets')->group(function ()
+    Route::get('/', 'DashboardController@getView')->name('dashboard.index');
+
+    Route::name('streets.')->prefix('/streets')->group(function ()
     {
-        Route::get('/', 'StreetController@getList')->name('list');
-        Route::get('/add', 'StreetController@getAdd')->name('add.get');
-        Route::post('/add', 'StreetController@postAdd')->name('add.post');
-        Route::get('/{id}/edit', 'StreetController@getEdit')->name('edit.get');
-        Route::post('/{id}/edit', 'StreetController@postEdit')->name('edit.post');
-        Route::get('/{id}/delete', 'StreetController@getDelete')->name('delete.get');
-        Route::get('/{id}/reset', 'StreetController@getReset')->name('reset.get');
-        Route::get('/{id}', 'StreetController@getView')->name('view.get');
+        Route::get('/', 'StreetController@list')->name('list');
+        Route::post('/', 'StreetController@store')->name('store');
+        Route::get('/create', 'StreetController@create')->name('create');
+        Route::get('/{street}', 'StreetController@show')->name('show');
+        Route::patch('/{street}', 'StreetController@update')->name('update');
+        Route::get('/{street}/edit', 'StreetController@edit')->name('edit');
+        Route::get('/{street}/delete', 'StreetController@delete')->name('delete');
+        Route::get('/{street}/reset', 'StreetController@reset')->name('reset');
     });
 
-    Route::name('schedule.')->prefix('/schedules')->group(function ()
+    Route::name('schedules.')->prefix('/schedules')->group(function ()
     {
-        Route::get('/', 'ScheduleController@getList')->name('list');
-        Route::get('/add', 'ScheduleController@getAdd')->name('add.get');
-        Route::post('/add', 'ScheduleController@postAdd')->name('add.post');
-        Route::get('/edit/{id}', 'ScheduleController@getEdit')->name('edit.get');
-        Route::post('/edit/{id}', 'ScheduleController@postEdit')->name('edit.post');
-        Route::get('/delete/{id}', 'ScheduleController@getDelete')->name('delete.get');
+        Route::get('/', 'ScheduleController@list')->name('list');
+        Route::post('/', 'ScheduleController@store')->name('store');
+        Route::get('/create', 'ScheduleController@create')->name('create');
+        Route::patch('/{schedule}', 'ScheduleController@update')->name('update');
+        Route::get('/{schedule}/edit', 'ScheduleController@edit')->name('edit');
+        Route::get('/{schedule}/delete', 'ScheduleController@delete')->name('delete');
     });
     
     Route::name('lamp.')->prefix('/lamps')->group(function ()
     {
-        Route::get('/{id}/reset', 'LampController@getReset')->name('reset.get');
-        Route::get('/{id}/on', 'LampController@turnOn')->name('on.get');
-        Route::get('/{id}/off', 'LampController@turnOff')->name('off.get');
+        Route::get('/{id}/reset', 'LampController@reset')->name('reset');
+        Route::get('/{id}/on', 'LampController@turnOn')->name('turn.on');
+        Route::get('/{id}/off', 'LampController@turnOff')->name('turn.off');
     });
 
-    Route::prefix('provinces')->name('provinces.')->group(function ()
+    Route::name('provinces.')->prefix('provinces')->group(function ()
     {
         Route::get('/', 'ProvinceController@list')->name('list');
         Route::get('/{province}/lamps', 'ProvinceController@getListOfLamps')->name('lamps');

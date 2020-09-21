@@ -38,19 +38,19 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="{{route('user.schedule.add.post')}}" method="post">
+              <form role="form" action="{{route('user.schedules.store')}}" method="post">
                 {{csrf_field()}}
                 <div class="card-body" id="form-field">
                   <div class="form-group">
-                    <label for="name">Đặt tên:</label>
+                    <label for="name">Đặt tên: <span class="text-red">*</span></label>
                     <input name="name" type="text" class="form-control" id="name" required>
                   </div>
                   <div class="form-group">
-                    <label for="name">Thời gian:</label>
-                    <input name="time" class="form-control" id="time" required>
+                    <label for="name">Thời gian: <span class="text-red">*</span></label>
+                    <input type="time" name="time" class="form-control" id="time" required>
                   </div>
                   <div class="form-group">
-                    <label for="staff_id">Lệnh:</label>
+                    <label for="staff_id">Lệnh: <span class="text-red">*</span></label>
                     <select name="state" id="staff_id" class="form-control select2" style="width: 100%;">
                       <option value="setpercent">Chỉnh độ sáng</option>
                       <option value="off">Tắt đèn</option>
@@ -58,7 +58,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="name">Độ sáng:</label>
+                    <label for="name">Độ sáng (0-10): <span class="text-red">*</span></label>
                     <input name="percent" type="number" min="0" max="10" class="form-control" id="name" required>
                   </div>
                 </div> 
@@ -81,11 +81,4 @@
   @stop
 
 @section('scripts')
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-<script>
-$(document).ready(function(){
-    $('#time').timepicker({timeFormat: 'H:mm'});
-});
-</script>
 @stop

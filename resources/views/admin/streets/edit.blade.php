@@ -42,12 +42,13 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form role="form" action="{{route('user.street.edit.post', ['id'=>$street->id])}}"
+                        <form role="form" action="{{route('user.streets.update', ['street'=>$street->id])}}"
                             method="post">
-                            {{csrf_field()}}
+                            @csrf
+                            @method('patch')
                             <div class="card-body" id="form-field">
                                 <div class="form-group">
-                                    <label for="province_id">Tỉnh / Thành phố</label>
+                                    <label for="province_id">Tỉnh / Thành phố: <span class="text-red">*</span></label>
                                     <select name="province_id" id="province_id" onchange="getDistrictList()"
                                         class="form-control" required>
                                         <option value="" disabled selected>Chọn tỉnh/thành phố</option>
@@ -58,7 +59,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="district_id">Quận/Huyện</label>
+                                    <label for="district_id">Quận/Huyện: <span class="text-red">*</span></label>
                                     <select id="district_id" name="district_id" onchange="getWardList()"
                                         class="form-control" required>
                                         <option value="{{$street->district->id}}" selected>{{$street->district->name}}
@@ -66,23 +67,23 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="ward_id">Phường/Xã</label>
+                                    <label for="ward_id">Phường/Xã: <span class="text-red">*</span></label>
                                     <select id="ward_id" name="ward_id" class="form-control" required>
                                         <option value="{{$street->ward->id}}" selected>{{$street->ward->name}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Tên tuyến đường:</label>
+                                    <label for="name">Tên tuyến đường: <span class="text-red">*</span></label>
                                     <input name="name" type="text" class="form-control" id="name"
                                         placeholder="Tên tuyến đường hoặc cụm đèn" value="{{$street->name}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="domain">Tên miền / Địa chỉ IP:</label>
+                                    <label for="domain">Tên miền / Địa chỉ IP: <span class="text-red">*</span></label>
                                     <input name="domain" type="text" class="form-control" id="domain"
                                         placeholder="Tên miền / Địa chỉ IP" value="{{$street->domain}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="cpu">Ấn nút để thêm đèn</label>
+                                    <label for="lamps">Danh sách đèn: <span class="text-red">*</span></label>
                                 </div>
                                 @foreach($street->lamps as $lamp)
                                 <div class="form-group">
@@ -97,11 +98,9 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <div class="card-body">
-                                <div id="add-field" type="submit" class="btn btn-default">Thêm đèn</div>
-                            </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
+                                <div id="add-field" type="submit" class="btn btn-default">Thêm đèn</div>
                                 <button type="submit" class="btn btn-primary float-right">Lưu thông tin đường</button>
                             </div>
                         </form>

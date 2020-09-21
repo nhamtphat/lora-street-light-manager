@@ -1,7 +1,8 @@
 @extends('admin.layouts.master')
 @section('head')
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{secure_asset('plugins/datatables/dataTables.bootstrap4.css')}}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 @stop
 @section('main')
 <!-- Content Wrapper. Contains page content -->
@@ -31,7 +32,8 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Hover Data Table</h3>
+              <h3 class="card-title">Danh sách tuyến đường</h3>
+              <a href="{{ route('user.streets.create') }}" class="btn btn-primary float-right">Thêm mới</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -39,6 +41,9 @@
                 <thead>
                 <tr>
                   <th>Tuyến/cụm đèn đường</th>
+                  <th>Phường/Xã</th>
+                  <th>Quận/Huyện</th>
+                  <th>Tỉnh/Thành phố</th>
                   <th width="100px">Thao tác</th>
                 </tr>
                 </thead>
@@ -46,10 +51,13 @@
                 @foreach($streets as $street)
                 <tr>
                   <td>{{$street->name}}</td>
+                  <td>{{$street->ward->name}}</td>
+                  <td>{{$street->district->name}}</td>
+                  <td>{{$street->province->name}}</td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{route('user.street.edit.get', ['id'=>$street->id])}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
-                      <a href="{{route('user.street.delete.get', ['id'=>$street->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                      <a href="{{ route('user.streets.edit', ['street' => $street->id]) }}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+                      <a href="{{ route('user.streets.delete', ['street' => $street->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -73,11 +81,14 @@
 
 @section('scripts')
 <!-- DataTables -->
-<script src="{{secure_asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{secure_asset('plugins/datatables/dataTables.bootstrap4.js')}}"></script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/datatable_parameters.js') }}"></script>
 <script>
   $(function () {
-    $('#example2').DataTable();
+    $('#example2').DataTable(datatable_parameters);
   });
 </script>
 @stop

@@ -44,21 +44,21 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
-                <i class="fa fa-map-marker"></i>
-                {{ $province->name }}
+                <i class="fa fa-map-marked-alt"></i>
+                <span class="ml-2">{{ $province->name }}</span>
               </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <dl class="float-right">
                 <a href="{{route('user.provinces.turn.on', ['province'=>$province->id])}}" class="btn btn-app">
-                  <i class="fa fa-lightbulb-o"></i> Bật Đèn
+                  <i class="fas fa-lightbulb"></i> Bật Đèn
                 </a>
                 <a href="{{route('user.provinces.turn.off', ['province'=>$province->id])}}" class="btn btn-app">
-                  <i class="fa fa-power-off"></i> Tắt Đèn
+                  <i class="fas fa-power-off"></i> Tắt Đèn
                 </a>
                 <a href="{{route('user.provinces.lamps', ['province'=>$province->id])}}" class="btn btn-app">
-                  <i class="fa fa-briefcase"></i> Quản lý
+                  <i class="fas fa-briefcase"></i> Quản lý
                 </a>
               </dl>
               <a class="btn btn-app bg-success">

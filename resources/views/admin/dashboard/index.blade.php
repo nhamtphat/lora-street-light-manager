@@ -1,5 +1,7 @@
 @extends('admin.layouts.master')
 @section('head')
+<!-- bootstrap slider -->
+<link rel="stylesheet" href="{{ asset('plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}">
 @stop
 @section('main')
 <!-- Content Wrapper. Contains page content -->
@@ -33,7 +35,7 @@
               <h3 class="card-title">{{$street->name}}</h3>
 
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-plus"></i>
                 </button>
               </div>
               <!-- /.card-tools -->
@@ -51,7 +53,7 @@
                 }
                 @endphp
                 <span title="UID: {{$lamp->uid}}" class="mx-1 info-box-icon {{$color}}" id="lamp{{$lamp->id}}"><i
-                    class="fa fa-lightbulb-o"></i></span>
+                    class="fas fa-lightbulb"></i></span>
                 @endforeach
               </div>
               @if($street->is_error())
@@ -64,26 +66,27 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <input type="text" id="percentof{{$street->id}}" value="" class="slider form-control" data-slider-min="0"
-                data-slider-max="10" data-slider-step="1" data-slider-value="{{$street->level}}"
-                data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show"
-                data-slider-id="red">
+              <div class="slider-red">
+                <input type="text" id="percentof{{$street->id}}" value="" class="slider form-control" data-slider-min="0" data-slider-max="10"
+                           data-slider-step="1" data-slider-value="{{$street->level}}" data-slider-orientation="horizontal"
+                           data-slider-selection="before" data-slider-tooltip="show">
+              </div>
               <hr>
               <div id="btn{{$street->id}}">
                 <a class="btn btn-app" onclick="setPercent({{$street->id}})">
-                  <i class="fa fa-play"></i> Chỉnh độ sáng
+                  <i class="fas fa-play"></i> Chỉnh độ sáng
                 </a>
                 <a class="btn btn-app" onclick="setOn({{$street->id}})">
-                  <i class="fa fa-lightbulb-o"></i> Bật Đèn
+                  <i class="fas fa-lightbulb"></i> Bật Đèn
                 </a>
                 <a class="btn btn-app" onclick="setOff({{$street->id}})">
-                  <i class="fa fa-power-off"></i> Tắt Đèn
+                  <i class="fas fa-power-off"></i> Tắt Đèn
                 </a>
-                <a href="{{route('user.street.view.get', ['id'=>$street->id])}}" class="btn btn-app">
-                  <i class="fa fa-briefcase"></i> Quản lý
+                <a href="{{route('user.streets.show', ['street'=>$street->id])}}" class="btn btn-app">
+                  <i class="fas fa-briefcase"></i> Quản lý
                 </a>
-                <a href="{{route('user.street.reset.get', ['id'=>$street->id])}}" class="btn btn-app">
-                  <i class="fa fa-refresh"></i> Reset
+                <a href="{{route('user.streets.reset', ['street'=>$street->id])}}" class="btn btn-app">
+                  <i class="fas fa-retweet"></i> Reset
                 </a>
               </div>
             </div>
@@ -103,22 +106,29 @@
 @stop
 
 @section('scripts')
-
+<!-- Bootstrap slider -->
+<script src="{{ asset('plugins/bootstrap-slider/bootstrap-slider.min.js') }}"></script>
+<script>
+  $(function () {
+    /* BOOTSTRAP SLIDER */
+    $('.slider').bootstrapSlider()
+  });
+</script>
 <!-- AJAX STREET CONTROLLER -->
 <script>
   function setPercent(id) {
     var onoff = document.getElementById("btn" + id);
-    onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-play"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
+    onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-play"></i>', '<i class="fas fa-spinner fa-spin fa-3x"></i>');
     var value = $('#percentof' + id).val();
     $.get('/api/streets/' + id + '/level/' + value, function(result) {
-        onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-play"></i>');
+        onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-spinner fa-spin fa-3x"></i>', '<i class="fas fa-play"></i>');
         console.log(result)
     });
   }
 
   function setOn(id) {
     var onoff = document.getElementById("btn" + id);
-    onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-lightbulb-o"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
+    onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-lightbulb"></i>', '<i class="fas fa-spinner fa-spin fa-3x"></i>');
     $.get('/api/streets/' + id + '/on', function(result) {
         console.log(result);
         var element = document.getElementById("street" + id);
@@ -135,7 +145,7 @@
                                                 .replace('Đang tắt', 'Mất kết nối');
         }
         
-        onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-lightbulb-o"></i>');
+        onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-spinner fa-spin fa-3x"></i>', '<i class="fas fa-lightbulb"></i>');
         
     }).fail( function(xhr, textStatus, errorThrown) {
       location.reload();
@@ -144,7 +154,7 @@
 
   function setOff(id) {
     var onoff = document.getElementById("btn" + id);
-    onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-power-off"></i>', '<i class="fa fa-spinner fa-spin fa-3x"></i>');
+    onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-power-off"></i>', '<i class="fas fa-spinner fa-spin fa-3x"></i>');
     $.get('/api/streets/' + id + '/off', function(result) {
         console.log(result);
         var element = document.getElementById("street" + id);
@@ -160,7 +170,7 @@
                                               .replace('Đang bật', 'Mất kết nối') 
         }
         
-        onoff.innerHTML = onoff.innerHTML.replace('<i class="fa fa-spinner fa-spin fa-3x"></i>', '<i class="fa fa-power-off"></i>');
+        onoff.innerHTML = onoff.innerHTML.replace('<i class="fas fa-spinner fa-spin fa-3x"></i>', '<i class="fas fa-power-off"></i>');
         
     }).fail( function(xhr, textStatus, errorThrown) {
       location.reload();

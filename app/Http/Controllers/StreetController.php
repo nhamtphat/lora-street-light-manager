@@ -18,7 +18,7 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function getList()
+    public function list()
     {
         $data['streets'] = Street::all();
         return view('admin.streets.list', $data);
@@ -29,22 +29,21 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function getView($street_id)
+    public function show($street_id)
     {
         $data['street'] = Street::findOrFail($street_id);
         return view('admin.streets.view', $data);
     }
-
 
     /**
      * Nhập thông tin để thêm tuyến đường mới
      *
      * @return void
      */
-    public function getAdd()
+    public function create()
     {
         $data['provinces'] = Province::all();
-        return view('admin.streets.add', $data);
+        return view('admin.streets.create', $data);
     }
 
 
@@ -53,7 +52,7 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function postAdd(Request $req)
+    public function store(Request $req)
     {
         $lamps = Lamp::whereIn('uid', $req->lamp_uid)->get();
         if($lamps->count() > 0) {
@@ -77,7 +76,7 @@ class StreetController extends Controller
             $lamp_id = Lamp::create($lamp_data);
         }
 
-        return redirect()->route('user.street.list.get');
+        return redirect()->route('user.streets.list');
     }
 
     /**
@@ -85,7 +84,7 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function getEdit($street_id)
+    public function edit($street_id)
     {
         $data['provinces'] = Province::all();
         // $data['districts'] = District::all();
@@ -101,7 +100,7 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function postEdit($street_id, Request $req)
+    public function update($street_id, Request $req)
     {
         $street = Street::findOrFail($street_id);
         
@@ -128,7 +127,7 @@ class StreetController extends Controller
             $lamp_id = Lamp::create($lamp_data);
         }
 
-        return redirect()->route('user.street.edit.get', ['id'=>$street->id])->with('success', 'Lưu thay đổi thành công!'); 
+        return redirect()->route('user.streets.edit', ['street'=>$street->id])->with('success', 'Lưu thay đổi thành công!'); 
     }
 
     /**
@@ -136,7 +135,7 @@ class StreetController extends Controller
      *
      * @return void
      */
-    public function getDelete($street_id)
+    public function delete($street_id)
     {
         $street = Street::findOrFail($street_id);
         $street->lamps()->delete();
@@ -144,7 +143,7 @@ class StreetController extends Controller
         return redirect()->route('user.street.list.get');
     }
 
-    public function getReset($street_id)
+    public function reset($street_id)
     {
         $street = Street::findOrFail($street_id);
         foreach ($street->lamps as $lamp) {
@@ -161,6 +160,6 @@ class StreetController extends Controller
             'level' => 10
         ]);
 
-        return redirect()->route('user.dashboard.view.get');
+        return redirect()->back();
     }
 }

@@ -38,11 +38,11 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="{{route('user.street.add.post')}}" method="post">
+            <form role="form" action="{{route('user.streets.store')}}" method="post">
               @csrf
               <div class="card-body" id="form-field">
                 <div class="form-group">
-                  <label for="province_id">Tỉnh / Thành phố</label>
+                  <label for="province_id">Tỉnh / Thành phố: <span class="text-red">*</span></label>
                   <select name="province_id" id="province_id" onchange="getDistrictList()" class="form-control"
                     required>
                     <option value="" disabled selected>Chọn tỉnh/thành phố</option>
@@ -52,29 +52,29 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="district_id">Quận/Huyện</label>
+                  <label for="district_id">Quận/Huyện: <span class="text-red">*</span></label>
                   <select id="district_id" name="district_id" onchange="getWardList()" class="form-control" required>
                     <option value="" disabled selected>Chọn quận/huyện</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="ward_id">Phường/Xã</label>
+                  <label for="ward_id">Phường/Xã: <span class="text-red">*</span></label>
                   <select id="ward_id" name="ward_id" class="form-control" required>
                     <option value="" disabled selected>Chọn phường/xã</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="name">Tên tuyến đường:</label>
+                  <label for="name">Tên tuyến đường: <span class="text-red">*</span></label>
                   <input name="name" type="text" class="form-control" id="name"
                     placeholder="Tên tuyến đường hoặc cụm đèn" value="{{old('name')}}" required>
                 </div>
                 <div class="form-group">
-                  <label for="domain">Tên miền / Địa chỉ IP:</label>
+                  <label for="domain">Tên miền / Địa chỉ IP: <span class="text-red">*</span></label>
                   <input name="domain" type="text" class="form-control" id="domain" placeholder="Tên miền / Địa chỉ IP"
                     value="{{old('domain')}}" required>
                 </div>
                 <div class="form-group">
-                  <label for="lamps">Ấn nút để thêm đèn</label>
+                  <label for="lamps">Danh sách đèn: <span class="text-red">*</span></label>
                 </div>
                 @foreach(old('lamp_uid') ?? [] as $uid)
                 <div class="form-group">
@@ -111,10 +111,13 @@
 
 @section('scripts')
 <script>
-  $("#add-field").click(function() {
+  function addField() {
     $("#form-field").append('<div class="form-group"><div class="input-group"><input type="number" name="lamp_uid[]" class="form-control" placeholder="UID của đèn" required><span class="input-group-append">\
                     <input type="button" class="btn btn-danger remove-field" value="Xoá dòng này" ></span></div></div>');
-  });
+  }
+  
+  addField()
+  $("#add-field").click(function() {addField()});
 
   $(document).on("click", ".remove-field", function() {
     $(this).closest(".form-group").remove();

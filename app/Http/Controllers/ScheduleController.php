@@ -7,41 +7,42 @@ use App\Models\Schedule;
 
 class ScheduleController extends Controller
 {
-    public function getList()
+    public function list()
     {
         $data['schedules'] = Schedule::all();
         return view('admin.schedules.list', $data);
     }
-    public function getAdd()
+    public function create()
     {
-        return view('admin.schedules.add');
+        return view('admin.schedules.create');
     }
 
-    public function postAdd(Request $req)
+    public function store(Request $req)
     {
         Schedule::create($req->only(['name', 'time', 'state', 'percent']));
-        return redirect()->route('user.schedule.list.get');
+        return redirect()->route('user.schedules.list');
     }
 
-    public function getDelete($schedule_id)
+    public function delete($schedule_id)
     {
         $schedule = Schedule::findOrFail($schedule_id);
         $schedule->delete();
-        return $this->getList();
+        
+        return redirect()->route('user.schedules.list');
     }
 
-    public function getEdit($schedule_id)
+    public function edit($schedule_id)
     {
         $data['schedule'] = Schedule::findOrFail($schedule_id);
         return view('admin.schedules.edit', $data);
     }
 
-    public function postEdit($schedule_id, Request $req)
+    public function update($schedule_id, Request $req)
     {
         $schedule = Schedule::findOrFail($schedule_id);
         $data = $req->only(['name', 'time', 'percent', 'state']);
         $schedule->update($data);
 
-        return redirect()->route('user.schedule.list.get');
+        return redirect()->route('user.schedules.list');
     }
 }

@@ -25,7 +25,11 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <div class="card card-primary">
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">Các bộ hẹn giờ đã đặt</h3>
+                <a href="{{ route('user.schedules.create') }}" class="btn btn-primary float-right">Thêm mới</a>
+              </div>
               <div class="card-body">
                 <table class="table table-bordered">
                   <tbody>
@@ -55,8 +59,8 @@
                     <td>{{ $schedule->percent }}</td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{ route('user.schedule.edit.get', ['id' => $schedule->id]) }}" type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></a>
-                        <a href="{{ route('user.schedule.delete.get', ['id' => $schedule->id]) }}" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        <a href="{{ route('user.schedules.edit', ['schedule' => $schedule->id]) }}" type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="{{ route('user.schedules.delete', ['schedule' => $schedule->id]) }}" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                       </div>
                     </td>
                   </tr>
