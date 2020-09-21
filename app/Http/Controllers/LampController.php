@@ -26,7 +26,7 @@ class LampController extends Controller
         return redirect()->route('user.street.view.get', ['id'=>$lamp->street->id]);
     }
 
-    public function getOn($lamp_id)
+    public function turnOn($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);
 
@@ -50,10 +50,11 @@ class LampController extends Controller
 
         // Cập nhật CSDL
         $lamp->update($data);
+        $lamp->street->autoUpdateStatus();
         return redirect()->route('user.street.view.get', ['id'=>$street->id]);
     }
     
-    public function getOff($lamp_id)
+    public function turnOff($lamp_id)
     {
         $lamp = Lamp::findOrFail($lamp_id);
 
@@ -77,6 +78,7 @@ class LampController extends Controller
 
         // Cập nhật CSDL
         $lamp->update($data);
+        $lamp->street->autoUpdateStatus(); 
         return redirect()->route('user.street.view.get', ['id'=>$street->id]);
     }
 }

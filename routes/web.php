@@ -36,7 +36,7 @@ Route::name('user.')->middleware('auth')->group(function()
 
     Route::name('street.')->prefix('/streets')->group(function ()
     {
-        Route::get('/', 'StreetController@getList')->name('list.get');
+        Route::get('/', 'StreetController@getList')->name('list');
         Route::get('/add', 'StreetController@getAdd')->name('add.get');
         Route::post('/add', 'StreetController@postAdd')->name('add.post');
         Route::get('/{id}/edit', 'StreetController@getEdit')->name('edit.get');
@@ -48,7 +48,7 @@ Route::name('user.')->middleware('auth')->group(function()
 
     Route::name('schedule.')->prefix('/schedules')->group(function ()
     {
-        Route::get('/', 'ScheduleController@getList')->name('list.get');
+        Route::get('/', 'ScheduleController@getList')->name('list');
         Route::get('/add', 'ScheduleController@getAdd')->name('add.get');
         Route::post('/add', 'ScheduleController@postAdd')->name('add.post');
         Route::get('/edit/{id}', 'ScheduleController@getEdit')->name('edit.get');
@@ -59,25 +59,27 @@ Route::name('user.')->middleware('auth')->group(function()
     Route::name('lamp.')->prefix('/lamps')->group(function ()
     {
         Route::get('/{id}/reset', 'LampController@getReset')->name('reset.get');
-        Route::get('/{id}/on', 'LampController@getOn')->name('on.get');
-        Route::get('/{id}/off', 'LampController@getOff')->name('off.get');
+        Route::get('/{id}/on', 'LampController@turnOn')->name('on.get');
+        Route::get('/{id}/off', 'LampController@turnOff')->name('off.get');
     });
 
     Route::prefix('provinces')->name('provinces.')->group(function ()
     {
-        Route::get('/', 'ProvinceController@list')->name('list.get');
-        Route::get('/{province}/lamps', 'ProvinceController@getListOfLamps')->name('listoflamps.get');
+        Route::get('/', 'ProvinceController@list')->name('list');
+        Route::get('/{province}/lamps', 'ProvinceController@getListOfLamps')->name('lamps');
+        Route::get('/{province}/on', 'ProvinceController@turnOn')->name('turn.on');
+        Route::get('/{province}/off', 'ProvinceController@turnOff')->name('turn.off');
     });
 
     Route::prefix('districts')->name('districts.')->group(function ()
     {
-        Route::get('/', 'DistrictController@list')->name('list.get');
+        Route::get('/', 'DistrictController@list')->name('list');
         Route::get('/{district}/lamps', 'DistrictController@getListOfLamps')->name('listoflamps.get');
     });
 
     Route::prefix('wards')->name('wards.')->group(function ()
     {
-        Route::get('/', 'WardController@list')->name('list.get');
+        Route::get('/', 'WardController@list')->name('list');
         Route::get('/{ward}/lamps', 'WardController@getListOfLamps')->name('listoflamps.get');
     });
 });

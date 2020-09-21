@@ -1,7 +1,6 @@
 @extends('admin.layouts.master')
 @section('head')
 <!-- DataTables -->
-<link rel="stylesheet" href="{{secure_asset('plugins/datatables/dataTables.bootstrap4.css')}}">
 <style>
   .btn-app {
     height: unset;
@@ -39,9 +38,9 @@
   <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
-      @foreach ($provinces as $province)
       <div class="row">
-        <div class="col-md-12">
+      @foreach ($provinces as $province)
+        <div class="col-md-6">
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
@@ -51,25 +50,32 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <a class="btn btn-app float-right bg-default">
-                <span class="app-number-of-lamp">{{ $province->listOfLampsIsOff()->count() }}</span> Đèn tắt
-              </a>
-              <a class="btn btn-app float-right bg-success">
+              <dl class="float-right">
+                <a href="{{route('user.provinces.turn.on', ['province'=>$province->id])}}" class="btn btn-app">
+                  <i class="fa fa-lightbulb-o"></i> Bật Đèn
+                </a>
+                <a href="{{route('user.provinces.turn.off', ['province'=>$province->id])}}" class="btn btn-app">
+                  <i class="fa fa-power-off"></i> Tắt Đèn
+                </a>
+                <a href="{{route('user.provinces.lamps', ['province'=>$province->id])}}" class="btn btn-app">
+                  <i class="fa fa-briefcase"></i> Quản lý
+                </a>
+              </dl>
+              <a class="btn btn-app bg-success">
                 <span class="app-number-of-lamp">{{ $province->listOfLampsIsOn()->count() }}</span> Đèn bật
               </a>
-              <dl>
-                <dt>Description lists</dt>
-                <dd>A description list is perfect for defining terms.</dd>
-              </dl>
+              <a class="btn btn-app bg-default">
+                <span class="app-number-of-lamp">{{ $province->listOfLampsIsOff()->count() }}</span> Đèn tắt
+              </a>
             </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
         </div>
         <!-- /.col -->
+      @endforeach
       </div>
       <!-- /.row -->
-      @endforeach
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content -->
@@ -78,9 +84,6 @@
 @stop
 
 @section('scripts')
-<!-- DataTables -->
-<script src="{{secure_asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{secure_asset('plugins/datatables/dataTables.bootstrap4.js')}}"></script>
 <script>
   $(function () {
     $('#example2').DataTable();

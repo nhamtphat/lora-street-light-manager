@@ -26,21 +26,33 @@ class Province extends Model
 
     public function listOfLampsIsOn()
     {
-        $lamps_is_on = $this->lamps->filter(function ($lamp)
-        {
-            return $lamp->status == 'on';
-        });
-
+        $lamps_is_on = $this->lamps->where('status', 'on');
         return $lamps_is_on;
     }
 
     public function listOfLampsIsOff()
     {
-        $lamps_is_off = $this->lamps->filter(function ($lamp)
-        {
-            return $lamp->status == 'off';
-        });
-
+        $lamps_is_off = $this->lamps->where('status', 'off');
         return $lamps_is_off;
+    }
+
+    public function turnOn()
+    {
+        $streets = $this->streets;
+        foreach ($streets as $street) {
+            $street->turnOn();
+        }
+
+        return redirect()->route('user.provinces.list');
+    }
+
+    public function turnOff()
+    {
+        $streets = $this->streets;
+        foreach ($streets as $street) {
+            $street->turnOff();
+        }
+
+        return redirect()->route('user.provinces.list');
     }
 }

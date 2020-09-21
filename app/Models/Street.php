@@ -115,4 +115,74 @@ class Street extends Model
 
         return $resp;
     }
+
+    public function autoUpdateStatus()
+    {
+        $lamps = $this->lamps;
+        
+        // if all lamps are on
+        if($lamps->where('status', 'on')->count() == $lamps->count()) {
+            $this->update(['status' => 'on']);
+        }
+        
+        // if all lamps are off
+        elseif($lamps->where('status', 'off')->count() == $lamps->count()) {
+            $this->update(['status' => 'off']);
+        }
+        
+    }
+
+    public function turnOn()
+    {
+        // Điều khiển ESP
+        $esp_result = $this->SendToESP($this->level);
+
+        // Nếu thành công, state giữ nguyên, trả kết quả status mới
+        if ($esp_result=='OK') {
+            $result = [
+                'state' => $this->state,
+                'status' => 'on',
+                'msg'=> 'Đã bật tuyến '.$this->name.'.'
+            ];
+        } 
+
+        // Nếu thất bại, trả về state là 'error', status giữ nguyên
+        elseif ($esp_result == 'error') {
+            $result = [
+                'state'=> 'error', 
+                'status' => $this->status,
+                'msg'=>'Không thể kết nối tuyến '.$this->name.'.'
+            ];
+        }
+
+        // Cập nhật CSDL
+        $this->update($result);
+    }
+
+    public function turnOff()
+    {
+        // Điều khiển ESP
+        $esp_result = $this->SendToESP(0);
+
+        // Nếu thành công, state giữ nguyên, trả kết quả status mới
+        if ($esp_result=='OK') {
+            $result = [
+                'state' => $this->state,
+                'status' => 'off',
+                'msg'=> 'Đã tắt tuyến '.$this->name.'.'
+            ];
+        } 
+
+        // Nếu thất bại, trả về state là 'error', status giữ nguyên
+        elseif ($esp_result == 'error') {
+            $result = [
+                'state'=> 'error', 
+                'status' => $this->status,
+                'msg'=>'Không thể kết nối tuyến '.$this->name.'.'
+            ];
+        }
+        
+        // Cập nhật CSDL
+        $this->update($result);
+    }
 }

@@ -17,7 +17,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-        ]
+        ],
+        'App\Events\TurnOnProvinceEvent' => ['App\Listeners\TurnOnProvinceListener'],
+        'App\Events\TurnOffProvinceEvent' => ['App\Listeners\TurnOffProvinceListener'],
     ];
 
     /**

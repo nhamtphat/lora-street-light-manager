@@ -20,30 +20,7 @@ class StreetController extends Controller
     public function setOn($street_id)
     {
         $street = Street::findOrFail($street_id);
-        
-        // Điều khiển ESP
-        $esp_result = $street->SendToESP($street->level);
-
-        // Nếu thành công, state giữ nguyên, trả kết quả status mới
-        if ($esp_result=='OK') {
-            $result = [
-                'state' => $street->state,
-                'status' => 'on',
-                'msg'=> 'Đã bật tuyến '.$street->name.'.'
-            ];
-        } 
-
-        // Nếu thất bại, trả về state là 'error', status giữ nguyên
-        elseif ($esp_result == 'error') {
-            $result = [
-                'state'=> 'error', 
-                'status' => $street->status,
-                'msg'=>'Không thể kết nối tuyến '.$street->name.'.'
-            ];
-        }
-
-        // Cập nhật CSDL
-        $street->update($result);
+        $street->turnOn();
         return $street;
     }
 
@@ -55,30 +32,7 @@ class StreetController extends Controller
     public function setOff($street_id)
     {
         $street = Street::findOrFail($street_id);
-        
-        // Điều khiển ESP
-        $esp_result = $street->SendToESP(0);
-
-        // Nếu thành công, state giữ nguyên, trả kết quả status mới
-        if ($esp_result=='OK') {
-            $result = [
-                'state' => $street->state,
-                'status' => 'off',
-                'msg'=> 'Đã tắt tuyến '.$street->name.'.'
-            ];
-        } 
-
-        // Nếu thất bại, trả về state là 'error', status giữ nguyên
-        elseif ($esp_result == 'error') {
-            $result = [
-                'state'=> 'error', 
-                'status' => $street->status,
-                'msg'=>'Không thể kết nối tuyến '.$street->name.'.'
-            ];
-        }
-        
-        // Cập nhật CSDL
-        $street->update($result);
+        $street->turnOff();
         return $street;
     }
     
