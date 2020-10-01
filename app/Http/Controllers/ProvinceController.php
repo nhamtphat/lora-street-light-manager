@@ -11,6 +11,7 @@ use App\Models\Street;
 // Events
 use App\Events\TurnOnProvinceEvent;
 use App\Events\TurnOffProvinceEvent;
+use App\Events\BrightnessChangeProvinceEvent;
 
 class ProvinceController extends Controller
 {
@@ -23,8 +24,8 @@ class ProvinceController extends Controller
 
     public function list()
     {
-        $data['provinces'] = $this->model->with('lamps')->get();
-        return view('admin.provinces.list', $data);
+        $data['provinces'] = $this->model->latest('id')->with('lamps')->get();
+        return view('admin.provinces.index', $data);
     }
 
     public function getListOfLamps($id)
@@ -49,5 +50,53 @@ class ProvinceController extends Controller
         event(new TurnOffProvinceEvent($province));
 
         return redirect()->route('user.provinces.list');
+    }
+
+    public function turnOnAll()
+    {
+        $provinces = $this->model->all();
+        foreach ($provinces as $province) {
+            event(new TurnOnProvinceEvent($province));
+        }
+
+        return redirect()->route('user.provinces.list');
+    }
+
+    public function turnOffAll()
+    {
+        $provinces = $this->model->all();
+        foreach ($provinces as $province) {
+            event(new TurnOffProvinceEvent($province));
+        }
+
+        return redirect()->route('user.provinces.list');
+    }
+
+    public function turnMaxAll()
+    {
+        $this->setLevelAll(10);
+        return redirect()->route('user.provinces.list');
+    }
+
+    public function turnMidAll()
+    {
+        $this->setLevelAll(5);
+        return redirect()->route('user.provinces.list');
+    }
+
+    private function setLevelAll($level)
+    {
+        $provinces = $this->model->all();
+        foreach ($provinces as $province) {
+            event(new BrightnessChangeProvinceEvent($province, $level));
+        }
+    }
+
+    public function show($id)
+    {
+        $province = $this->model->findOrFail($id);
+
+        $data['streets'] = $province->streets;
+        return view('admin.dashboard.index', $data);
     }
 }

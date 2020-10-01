@@ -36,6 +36,12 @@ class Province extends Model
         return $lamps_is_off;
     }
 
+    public function listOfLampsIsError()
+    {
+        $lamps_is_off = $this->lamps->where('state', 'error');
+        return $lamps_is_off;
+    }
+
     public function turnOn()
     {
         $streets = $this->streets;

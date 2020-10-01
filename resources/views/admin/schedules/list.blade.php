@@ -6,14 +6,8 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Hẹn giờ</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
-            </ol>
+          <div class="col-sm-12">
+            <h1 class="m-0 text-dark">Bộ hẹn giờ</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -59,7 +53,7 @@
                     <td>{{ $schedule->percent }}</td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{ route('user.schedules.edit', ['schedule' => $schedule->id]) }}" type="button" class="btn btn-info"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="{{ route('user.schedules.edit', ['schedule' => $schedule->id]) }}" type="button" class="btn btn-info"><i class="fa fa-edit"></i></a>
                         <a href="{{ route('user.schedules.delete', ['schedule' => $schedule->id]) }}" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                       </div>
                     </td>

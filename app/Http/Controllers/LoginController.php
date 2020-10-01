@@ -41,7 +41,7 @@ class LoginController extends Controller
    
         if(Auth::attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
-            return redirect()->route('user.dashboard.view.get');
+            return redirect()->route('user.dashboard.index'); 
         }else{
             return redirect()->route('guest.login.get')
                 ->with('error','Email-Address And Password Are Wrong.');

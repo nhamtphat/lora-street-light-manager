@@ -11,14 +11,8 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Bảng điều khiển</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
-            </ol>
+          <div class="col-sm-12">
+            <h1 class="m-0 text-dark">Danh sách tuyến đèn</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -40,11 +34,11 @@
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>Tuyến/cụm đèn đường</th>
-                  <th>Phường/Xã</th>
-                  <th>Quận/Huyện</th>
-                  <th>Tỉnh/Thành phố</th>
-                  <th width="100px">Thao tác</th>
+                  <th class="all">Tuyến/cụm đèn đường</th>
+                  <th class="all">Phường/Xã</th>
+                  <th class="all">Quận/Huyện</th>
+                  <th class="all">Tỉnh/Thành phố</th>
+                  <th class="all">Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,7 +50,7 @@
                   <td>{{$street->province->name}}</td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('user.streets.edit', ['street' => $street->id]) }}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+                      <a href="{{ route('user.streets.edit', ['street' => $street->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                       <a href="{{ route('user.streets.delete', ['street' => $street->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     </div>
                   </td>

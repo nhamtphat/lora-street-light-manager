@@ -12,9 +12,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Street Light Manager</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   @yield('head')
@@ -75,27 +75,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{route('user.dashboard.index')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.index') === 0) ? 'active' : '' }}">
-              <i class="fas fa-tachometer-alt nav-icon"></i>
-              <p>Bảng điều khiển</p>
+            <a href="{{route('user.provinces.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.provinces.list') === 0) ? 'active' : '' }}">
+              <i class="fas fa-eye nav-icon"></i>
+              <p>Điều khiển & giám sát</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('user.provinces.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.provinces.list') === 0) ? 'active' : '' }}">
+            <a href="{{route('user.streets.index')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.dashboard.index') === 0) ? 'active' : '' }}">
               <i class="fas fa-map-marked-alt nav-icon"></i>
-              <p>Xem theo tỉnh thành</p>
+              <p>Tất cả tuyến đường</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{route('user.schedules.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.schedules.list') === 0) ? 'active' : '' }}">
               <i class="nav-icon fas fa-clock"></i>
-              <p>Hẹn giờ</p>
+              <p>Bộ hẹn giờ</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{route('user.streets.list')}}" class="nav-link {{ (strpos(Route::currentRouteName(), 'user.streets.list') === 0) ? 'active' : '' }}">
               <i class="nav-icon fas fa-road"></i>
-              <p>Tuyến đường</p>
+              <p>Danh sách tuyến đường</p>
             </a>
           </li>
         </ul>

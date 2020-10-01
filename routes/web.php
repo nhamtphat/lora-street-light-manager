@@ -29,12 +29,15 @@ Route::name('user.')->middleware('auth')->group(function()
 {
     Route::get('/logout','LoginController@getLogout')->name('logout.get');
 
-    Route::get('/', 'DashboardController@getView')->name('dashboard.index');
+    Route::get('/', function() {
+        return redirect()->route('user.provinces.list');
+    })->name('dashboard.index');
 
     Route::name('streets.')->prefix('/streets')->group(function ()
     {
-        Route::get('/', 'StreetController@list')->name('list');
+        Route::get('/', 'DashboardController@getView')->name('index');
         Route::post('/', 'StreetController@store')->name('store');
+        Route::get('/list', 'StreetController@list')->name('list');
         Route::get('/create', 'StreetController@create')->name('create');
         Route::get('/{street}', 'StreetController@show')->name('show');
         Route::patch('/{street}', 'StreetController@update')->name('update');
@@ -63,7 +66,11 @@ Route::name('user.')->middleware('auth')->group(function()
     Route::name('provinces.')->prefix('provinces')->group(function ()
     {
         Route::get('/', 'ProvinceController@list')->name('list');
-        Route::get('/{province}/lamps', 'ProvinceController@getListOfLamps')->name('lamps');
+        Route::get('/on-all', 'ProvinceController@turnOnAll')->name('turn.onall');
+        Route::get('/off-all', 'ProvinceController@turnOffAll')->name('turn.offall');
+        Route::get('/turn-max', 'ProvinceController@turnMaxAll')->name('turn.maxall');
+        Route::get('/turn-mid', 'ProvinceController@turnMidAll')->name('turn.midall');
+        Route::get('/{province}', 'ProvinceController@show')->name('show');
         Route::get('/{province}/on', 'ProvinceController@turnOn')->name('turn.on');
         Route::get('/{province}/off', 'ProvinceController@turnOff')->name('turn.off');
     });

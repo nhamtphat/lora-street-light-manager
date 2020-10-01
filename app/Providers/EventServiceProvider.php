@@ -20,6 +20,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\TurnOnProvinceEvent' => ['App\Listeners\TurnOnProvinceListener'],
         'App\Events\TurnOffProvinceEvent' => ['App\Listeners\TurnOffProvinceListener'],
+        'App\Events\TurnOnProvinceEvent' => ['App\Listeners\TurnOnProvinceListener'],
+        'App\Events\BrightnessChangeProvinceEvent' => ['App\Listeners\BrightnessChangeProvinceListener'],
     ];
 
     /**
