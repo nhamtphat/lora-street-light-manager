@@ -3,7 +3,7 @@
 
 Lora Street-Light Manager is a pet project for control the street-light network via Arduino and LORA module. You can find the codes for ESP8266 in ESP8266 directory.
 
-## Thank for
+## Thank you
 
 Sincere thanks to Master Nguyen Van Them for supporting the project.
 
